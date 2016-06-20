@@ -4,14 +4,16 @@ from ttk import *
 class NoTacToe:
 
     MAX_CANVAS = 6
-    DEFAULT_CANVAS_TOTAL = 3
+    TAG_TUPLE = ('one', 'two', 'three', 'four', 'five', 'six')
+    TAG_DICT = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6}
 
     def __init__(self):
         self.root = Tk()
         self.widgets = {}
         self.widgets['canvas'] = {}
+        self.canvas_total = 3
         self.display_window()
-        self.paint_canvas(self.DEFAULT_CANVAS_TOTAL)
+        self.paint_canvas()
         self.root.mainloop()
 
     def display_window(self):
@@ -23,10 +25,12 @@ class NoTacToe:
             self.widgets['canvas'][i].grid(row=(i/3), column=(i%3), padx=10, pady=10)
 
 
-    def paint_canvas(self, total):
+    def paint_canvas(self):
         for i in range(self.MAX_CANVAS):
             self.widgets['canvas'][i].delete("all")
-        for i in range(total):
+            self.widgets['canvas'][i].config(state='disabled')
+        for i in range(self.canvas_total):
+            self.widgets['canvas'][i].config(state='normal')
             self.widgets['canvas'][i].create_line(0, 100, 300, 100)
             self.widgets['canvas'][i].create_line(0, 200, 300, 200)
             self.widgets['canvas'][i].create_line(100, 0, 100, 300)
@@ -39,7 +43,6 @@ class NoTacToe:
                                                   ((box % 3) * 100 + 80), ((int(box / 3) * 100) + 20))
 
     def click(self, event):
-        # Freeze the radio buttons when click occurs.
         box = self.box_number(event.x, event.y)
         self.drawX(box, event.widget)
 

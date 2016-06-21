@@ -11,7 +11,7 @@ class NoTacToe:
         self.root = Tk()
         self.widgets = {}
         self.widgets['canvas'] = {}
-        self.canvas_total = 3
+        self.canvas_total = 5
         self.display_window()
         self.paint_canvas()
         self.root.mainloop()
@@ -21,16 +21,14 @@ class NoTacToe:
         self.widgets['window_frame'].grid(row=0)
         for i in range(6):
             self.widgets['canvas'][i] = Canvas(self.widgets['window_frame'], width=300, height=300)
-            self.widgets['canvas'][i].bind('<Button-1>', self.click)
             self.widgets['canvas'][i].grid(row=(i/3), column=(i%3), padx=10, pady=10)
-
 
     def paint_canvas(self):
         for i in range(self.MAX_CANVAS):
             self.widgets['canvas'][i].delete("all")
-            self.widgets['canvas'][i].config(state='disabled')
+            self.widgets['canvas'][i].unbind('<Button-1>')
         for i in range(self.canvas_total):
-            self.widgets['canvas'][i].config(state='normal')
+            self.widgets['canvas'][i].bind('<Button-1>', self.click)
             self.widgets['canvas'][i].create_line(0, 100, 300, 100)
             self.widgets['canvas'][i].create_line(0, 200, 300, 200)
             self.widgets['canvas'][i].create_line(100, 0, 100, 300)

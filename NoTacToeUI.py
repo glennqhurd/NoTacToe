@@ -6,6 +6,7 @@ from NoTacToe import *
 
 class NoTacToeUI:
 
+    # Constants for set values hard coded in the program
     MAX_CANVAS = 3
     ACTIVE_BOARDS = 3
     TAG_TUPLE = ('one', 'two', 'three', 'four', 'five', 'six')
@@ -14,10 +15,14 @@ class NoTacToeUI:
     COMPUTER_MODE = 1
 
     def __init__(self):
+        # Creates a new instance of NoTacToe (the game logic class)
         self.notactoe = NoTacToe()
         self.notactoe.create_boards()
+        # root is the base window that holds the frames
         self.root = Tk()
+        # widgets is a dict used to store all the member variable widgets in the program
         self.widgets = {}
+        # widgets['canvas'] is the dict within a dict that store all the Canvas member variables
         self.widgets['canvas'] = {}
         self.notactoe.set_active_boards(self.ACTIVE_BOARDS)
         title_frame = Frame(self.root)
@@ -28,6 +33,7 @@ class NoTacToeUI:
         self.canvas_window()
         self.control_window()
 
+    # Creates and displays the canvas objects in a frame
     def canvas_window(self):
         self.widgets['canvas_frame'] = Frame(self.root)
         self.widgets['canvas_frame'].grid(row=1)
@@ -36,6 +42,7 @@ class NoTacToeUI:
             self.widgets['canvas'][i].grid(row=(i/3), column=(i%3), padx=10, pady=10)
         self.paint_canvas()
 
+    # Creates and displays the control options frame
     def control_window(self):
         self.widgets['control_frame'] = Frame(self.root)
         self.widgets['control_frame'].grid(row=0, column=1, rowspan=2)
@@ -51,6 +58,7 @@ class NoTacToeUI:
                                                            value=self.COMPUTER_MODE)
         self.widgets['radiobutton_computer'].grid(row=2, sticky='W', padx=15)
 
+    # Paints the number of canvas objects based on active boards
     def paint_canvas(self):
         for i in range(self.MAX_CANVAS):
             self.widgets['canvas'][i].delete("all")
@@ -74,6 +82,9 @@ class NoTacToeUI:
         canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 40),
                                                   ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 10))
 
+    # Callback to respond when mouse click occurs in a canvas that the click is bound to.  event returns where the
+    # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the
+    # NoTacToe method
     def click(self, event, index):
         logging.debug(index)
         box = self.box_number(event.x, event.y)
@@ -82,6 +93,7 @@ class NoTacToeUI:
                 self.drawX(box, event.widget)
                 self.change_player()
 
+    # Returns the number of the box based on the x, y coordinates
     def box_number(self, x, y):
         # If clicked on a line returns None
         if x > 3 and x < 48:
@@ -106,6 +118,7 @@ class NoTacToeUI:
             elif y > 103 and y < 148:
                 return 8
 
+    # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):
         if self.notactoe.get_player() == 1 and self.notactoe.number_dead == self.ACTIVE_BOARDS:
             self.widgets['player_label'].config(text='Player 2 wins!')

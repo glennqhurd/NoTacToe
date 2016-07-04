@@ -6,10 +6,12 @@ from NoTacToe import *
 
 class NoTacToeUI:
 
-    MAX_CANVAS = 6
+    MAX_CANVAS = 3
     ACTIVE_BOARDS = 3
     TAG_TUPLE = ('one', 'two', 'three', 'four', 'five', 'six')
     TAG_DICT = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6}
+    PLAYER_MODE = 0
+    COMPUTER_MODE = 1
 
     def __init__(self):
         self.notactoe = NoTacToe()
@@ -24,7 +26,7 @@ class NoTacToeUI:
         self.widgets['player_label'] = Label(title_frame, text='Player 1 turn')
         self.widgets['player_label'].grid(row=1)
         self.canvas_window()
-        self.root.mainloop()
+        self.control_window()
 
     def canvas_window(self):
         self.widgets['canvas_frame'] = Frame(self.root)
@@ -33,6 +35,21 @@ class NoTacToeUI:
             self.widgets['canvas'][i] = Canvas(self.widgets['canvas_frame'], width=150, height=150)
             self.widgets['canvas'][i].grid(row=(i/3), column=(i%3), padx=10, pady=10)
         self.paint_canvas()
+
+    def control_window(self):
+        self.widgets['control_frame'] = Frame(self.root)
+        self.widgets['control_frame'].grid(row=0, column=1, rowspan=2)
+        Label(self.widgets['control_frame'], text='Game mode:').grid(row=0)
+        self.widgets['radio_variable'] = IntVar()
+        self.widgets['radio_variable'].set(0)
+        self.widgets['radiobutton_player'] = Radiobutton(self.widgets['control_frame'], text="Versus Player",
+                                                         variable=self.widgets['radio_variable'],
+                                                         value=self.PLAYER_MODE)
+        self.widgets['radiobutton_player'].grid(row=1, sticky='W', padx=15)
+        self.widgets['radiobutton_computer'] = Radiobutton(self.widgets['control_frame'], text="Versus Computer",
+                                                           variable=self.widgets['radio_variable'],
+                                                           value=self.COMPUTER_MODE)
+        self.widgets['radiobutton_computer'].grid(row=2, sticky='W', padx=15)
 
     def paint_canvas(self):
         for i in range(self.MAX_CANVAS):
@@ -106,3 +123,4 @@ class NoTacToeUI:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     nttui = NoTacToeUI()
+    nttui.root.mainloop()

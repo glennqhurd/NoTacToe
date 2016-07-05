@@ -56,7 +56,7 @@ class NoTacToe:
     def set_active_boards(self, number):
         self.active_boards = number
 
-    def get_active(self):
+    def get_active_boards(self):
         return self.active_boards
 
     def set_board(self, board_number, list):

@@ -8,11 +8,12 @@ class NoTacToeUI:
 
     # Constants for set values hard coded in the program
     MAX_CANVAS = 3
-    ACTIVE_BOARDS = 3
-    TAG_TUPLE = ('one', 'two', 'three', 'four', 'five', 'six')
-    TAG_DICT = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6}
+    TAG_TUPLE = ('one', 'two', 'three')
+    TAG_DICT = {'one': 1, 'two': 2, 'three': 3}
+    BOARD_NUMBER_TUPLE = (3, 1, 2, 3)
     PLAYER_MODE = 0
     COMPUTER_MODE = 1
+
 
     def __init__(self):
         # Creates a new instance of NoTacToe (the game logic class)
@@ -24,7 +25,8 @@ class NoTacToeUI:
         self.widgets = {}
         # widgets['canvas'] is the dict within a dict that store all the Canvas member variables
         self.widgets['canvas'] = {}
-        self.notactoe.set_active_boards(self.ACTIVE_BOARDS)
+        self.active_boards = 3
+        self.notactoe.set_active_boards(self.active_boards)
         title_frame = Frame(self.root)
         title_frame.grid(row=0, columnspan=2)
         Label(title_frame, text='NoTacToe: All X\'s, three in a row loses.').grid(row=0)
@@ -47,34 +49,34 @@ class NoTacToeUI:
         self.widgets['control_frame'] = Frame(self.root)
         self.widgets['control_frame'].grid(row=0, column=1, rowspan=2)
         Label(self.widgets['control_frame'], text='Game mode:').grid(row=0)
+        self.widgets['board_variable'] = IntVar()
+        self.widgets['board_variable'].set(self.active_boards)
+        self.widgets['board_option'] = OptionMenu(self.widgets['control_frame'], self.widgets['board_variable'],
+                                                  *self.BOARD_NUMBER_TUPLE, command=self.board_option_callback)
+        self.widgets['board_option'].grid(row=1, padx=15, pady=15)
         self.widgets['radio_variable'] = IntVar()
         self.widgets['radio_variable'].set(0)
         self.widgets['radiobutton_player'] = Radiobutton(self.widgets['control_frame'], text="Versus Player",
                                                          variable=self.widgets['radio_variable'],
                                                          value=self.PLAYER_MODE)
-        self.widgets['radiobutton_player'].grid(row=1, sticky='W', padx=15)
+        self.widgets['radiobutton_player'].grid(row=2, sticky='W', padx=15)
         self.widgets['radiobutton_computer'] = Radiobutton(self.widgets['control_frame'], text="Versus Computer",
                                                            variable=self.widgets['radio_variable'],
                                                            value=self.COMPUTER_MODE)
-        self.widgets['radiobutton_computer'].grid(row=2, sticky='W', padx=15)
+        self.widgets['radiobutton_computer'].grid(row=3, sticky='W', padx=15)
 
     # Paints the number of canvas objects based on active boards
     def paint_canvas(self):
         for i in range(self.MAX_CANVAS):
             self.widgets['canvas'][i].delete("all")
             self.widgets['canvas'][i].unbind('<Button-1>')
-        for i in range(self.notactoe.get_active()):
+        for i in range(self.notactoe.get_active_boards()):
             logging.debug(i)
             self.widgets['canvas'][i].bind('<Button-1>', lambda e, i=i: self.click(e, i))
             self.widgets['canvas'][i].create_line(0, 50, 150, 50)
             self.widgets['canvas'][i].create_line(0, 100, 150, 100)
             self.widgets['canvas'][i].create_line(50, 0, 50, 150)
             self.widgets['canvas'][i].create_line(100, 0, 100, 150)
-
-    def input_window(self):
-        self.widgets['input_frame'] = Frame(self.root)
-        self.widgets['input_frame'].grid(row=1, column=1)
-
 
     def drawX(self, box, canvas):
         canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 10),
@@ -120,10 +122,10 @@ class NoTacToeUI:
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):
-        if self.notactoe.get_player() == 1 and len(self.notactoe.dead_boards) == self.ACTIVE_BOARDS:
+        if self.notactoe.get_player() == 1 and len(self.notactoe.dead_boards) == self.active_boards:
             self.widgets['player_label'].config(text='Player 2 wins!')
             self.results_callback()
-        elif self.notactoe.get_player() == 2 and len(self.notactoe.dead_boards) == self.ACTIVE_BOARDS:
+        elif self.notactoe.get_player() == 2 and len(self.notactoe.dead_boards) == self.active_boards:
             self.widgets['player_label'].config(text='Player 1 wins!')
             self.results_callback()
         elif self.notactoe.get_player() == 1:
@@ -134,6 +136,13 @@ class NoTacToeUI:
             self.notactoe.set_player(1)
         else:
             return False
+
+    def board_option_callback(self, unused_var):
+        self.active_boards = self.widgets['board_variable'].get()
+        self.notactoe.set_active_boards(self.active_boards)
+        self.notactoe.reset_game()
+        self.paint_canvas()
+
 
     def results_callback(self):
         self.widgets['results_window'] = Toplevel()

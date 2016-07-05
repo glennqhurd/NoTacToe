@@ -3,13 +3,12 @@ import logging
 class NoTacToe:
 
     DEFAULT_NUM_BOARDS = 3
-    LOSING_POSITIONS = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (6, 7, 8),
-                        (2, 4, 6))
+    LOSING_POSITIONS = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
 
     def __init__(self):
         self.active_boards = self.DEFAULT_NUM_BOARDS
         self.board_list = []
-        self.number_dead = 0
+        self.dead_boards = []
         self.current_player = 1
 
     def create_boards(self):
@@ -21,55 +20,35 @@ class NoTacToe:
             self.board_list.append(temp_board)
             logging.debug(self.board_list[i])
 
+    def reset_game(self):
+        self.create_boards()
+        self.dead_boards = []
+        self.current_player = 1
+
     def mark_x(self, board_number, box):
-        if self.is_dead(self.board_list[board_number]):
+        if self.is_dead(self.board_list[board_number], board_number):
             return False
         if self.board_list[board_number][box] != 'X':
             self.board_list[board_number][box] = 'X'
-            self.check_loser(self.board_list[board_number])
+            self.check_loser(self.board_list[board_number], board_number)
             return True
         else:
             return False
 
-    def check_loser(self, board):
+    def check_loser(self, board, index):
         for i in self.LOSING_POSITIONS:
             if board[i[0]] == 'X' and board[i[1]] == 'X' and board[i[2]] == 'X':
-                self.number_dead += 1
+                exists = False
+                for i in range(len(self.dead_boards)):
+                    if self.dead_boards[i] == index:
+                        exists = True
+                if not exists:
+                    self.dead_boards.append(index)
                 return True
         return False
-        # if self.board_list[board_number][0] == 'X':
-        #     if self.board_list[board_number][1] == 'X':
-        #         if self.board_list[board_number][2] == 'X':
-        #             return True
-        #     if self.board_list[board_number][3] == 'X':
-        #         if self.board_list[board_number][6] == 'X':
-        #             return True
-        #     if self.board_list[board_number][4] == 'X':
-        #         if self.board_list[board_number][8] == 'X':
-        #             return True
-        # if self.board_list[board_number][1] == 'X':
-        #     if self.board_list[board_number][4] == 'X':
-        #         if self.board_list[board_number][7] == 'X':
-        #             return True
-        # if self.board_list[board_number][2] == 'X':
-        #     if self.board_list[board_number][5] == 'X':
-        #         if self.board_list[board_number][8] == 'X':
-        #             return True
-        #     if self.board_list[board_number][4] == 'X':
-        #         if self.board_list[board_number][6] == 'X':
-        #             return True
-        # if self.board_list[board_number][3] == 'X':
-        #     if self.board_list[board_number][4] == 'X':
-        #         if self.board_list[board_number][5] == 'X':
-        #             return True
-        # if self.board_list[board_number][6] == 'X':
-        #     if self.board_list[board_number][7] == 'X':
-        #         if self.board_list[board_number][8] == 'X':
-        #             return True
-        # return False
 
-    def is_dead(self, board):
-        if self.check_loser(board):
+    def is_dead(self, board, index):
+        if self.check_loser(board, index):
             return True
         return False
 

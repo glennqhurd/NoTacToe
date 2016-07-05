@@ -120,10 +120,12 @@ class NoTacToeUI:
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):
-        if self.notactoe.get_player() == 1 and self.notactoe.number_dead == self.ACTIVE_BOARDS:
+        if self.notactoe.get_player() == 1 and len(self.notactoe.dead_boards) == self.ACTIVE_BOARDS:
             self.widgets['player_label'].config(text='Player 2 wins!')
-        elif self.notactoe.get_player() == 2 and self.notactoe.number_dead == self.ACTIVE_BOARDS:
+            self.results_callback()
+        elif self.notactoe.get_player() == 2 and len(self.notactoe.dead_boards) == self.ACTIVE_BOARDS:
             self.widgets['player_label'].config(text='Player 1 wins!')
+            self.results_callback()
         elif self.notactoe.get_player() == 1:
             self.widgets['player_label'].config(text='Player 2 turn')
             self.notactoe.set_player(2)
@@ -132,6 +134,26 @@ class NoTacToeUI:
             self.notactoe.set_player(1)
         else:
             return False
+
+    def results_callback(self):
+        self.widgets['results_window'] = Toplevel()
+        self.widgets['results_window'].wm_title('Game Over')
+        Label(self.widgets['results_window'],
+              text='Game over!  Player %d wins!' % self.notactoe.current_player).grid(row=0, columnspan=2, pady=15,
+                                                                                      padx=15)
+        Button(self.widgets['results_window'], text='Play Again',
+               command=lambda x=self.widgets['results_window']: self.play_again_callback(x)).grid(row=1, pady=(0, 15),
+                                                                                                 padx=15)
+        Button(self.widgets['results_window'], text='Quit', command=self.quit_game).grid(row=1, column=1, pady=(0, 15),
+                                                                                         padx=15)
+
+    def play_again_callback(self, window):
+        self.notactoe.reset_game()
+        self.paint_canvas()
+        window.destroy()
+
+    def quit_game(self):
+        self.root.destroy()
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

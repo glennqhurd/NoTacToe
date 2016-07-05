@@ -17,19 +17,21 @@ class NoTacToe_test(unittest.TestCase):
     def test_check_loser(self):
         notactoe = NoTacToe()
         notactoe.create_boards()
-        self.assertEqual(False, notactoe.check_loser(notactoe.get_board(0)))
+        self.assertEqual(False, notactoe.check_loser(notactoe.get_board(0), 0))
         notactoe.mark_x(0, 0)
         notactoe.mark_x(0, 1)
         notactoe.mark_x(0, 2)
-        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(0)))
+        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(0), 0))
+        dead_list = [0]
+        self.assertEqual(dead_list, notactoe.dead_boards)
         notactoe.mark_x(1, 1)
         notactoe.mark_x(1, 4)
         notactoe.mark_x(1, 7)
-        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(1)))
+        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(1), 0))
         notactoe.mark_x(2, 2)
         notactoe.mark_x(2, 4)
         notactoe.mark_x(2, 6)
-        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(2)))
+        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(2), 1))
 
 if __name__ == '__main__':
     unittest.main()

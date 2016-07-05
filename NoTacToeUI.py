@@ -29,9 +29,12 @@ class NoTacToeUI:
         self.notactoe.set_active_boards(self.active_boards)
         title_frame = Frame(self.root)
         title_frame.grid(row=0, columnspan=2)
-        Label(title_frame, text='NoTacToe: All X\'s, three in a row loses.').grid(row=0)
+        Label(title_frame, text='Time to play NoTacToe!').grid(row=0)
+        Label(title_frame, text='Rules: All X\'s, three in a row loses.  Once a board loses it becomes dead.'
+                                'Dead boards can\n no longer be played on, and once all boards are dead the '
+                                'game is over.  The player who \nkilled the last board loses.').grid(row=1)
         self.widgets['player_label'] = Label(title_frame, text='Player 1 turn')
-        self.widgets['player_label'].grid(row=1)
+        self.widgets['player_label'].grid(row=2)
         self.canvas_window()
         self.control_window()
 

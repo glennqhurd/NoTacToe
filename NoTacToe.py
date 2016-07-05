@@ -11,6 +11,7 @@ class NoTacToe:
         self.dead_boards = []
         self.current_player = 1
 
+    # resets the boards to a default state
     def create_boards(self):
         self.board_list = []
         for i in range(self.active_boards):
@@ -20,13 +21,15 @@ class NoTacToe:
             self.board_list.append(temp_board)
             logging.debug(self.board_list[i])
 
+    # resets all the member variables and boards to a default state
     def reset_game(self):
         self.create_boards()
         self.dead_boards = []
         self.current_player = 1
 
+    # changes the board by replacing a ' ' with an 'X' if there isn't already an 'X' in place
     def mark_x(self, board_number, box):
-        if self.is_dead(self.board_list[board_number], board_number):
+        if self.check_loser(self.board_list[board_number], board_number):
             return False
         if self.board_list[board_number][box] != 'X':
             self.board_list[board_number][box] = 'X'
@@ -35,6 +38,8 @@ class NoTacToe:
         else:
             return False
 
+    # check_loser checks the board to see if there are three Xs in a line and if so checks if the list dead_boards has
+    # a value equal to index.  If the value doesn't exist it add index to the dead_boards list.
     def check_loser(self, board, index):
         for i in self.LOSING_POSITIONS:
             if board[i[0]] == 'X' and board[i[1]] == 'X' and board[i[2]] == 'X':
@@ -47,11 +52,7 @@ class NoTacToe:
                 return True
         return False
 
-    def is_dead(self, board, index):
-        if self.check_loser(board, index):
-            return True
-        return False
-
+    # set and get methods for various member variables
     def set_active_boards(self, number):
         self.active_boards = number
 

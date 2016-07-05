@@ -27,11 +27,11 @@ class NoTacToe_test(unittest.TestCase):
         notactoe.mark_x(1, 1)
         notactoe.mark_x(1, 4)
         notactoe.mark_x(1, 7)
-        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(1), 0))
+        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(1), 1))
         notactoe.mark_x(2, 2)
         notactoe.mark_x(2, 4)
         notactoe.mark_x(2, 6)
-        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(2), 1))
+        self.assertEqual(True, notactoe.check_loser(notactoe.get_board(2), 2))
 
 if __name__ == '__main__':
     unittest.main()

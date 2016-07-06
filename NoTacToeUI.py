@@ -127,9 +127,11 @@ class NoTacToeUI:
     def change_player(self):
         if self.notactoe.get_player() == 1 and len(self.notactoe.dead_boards) == self.active_boards:
             self.widgets['player_label'].config(text='Player 2 wins!')
+            self.notactoe.set_player(2)
             self.results_callback()
         elif self.notactoe.get_player() == 2 and len(self.notactoe.dead_boards) == self.active_boards:
             self.widgets['player_label'].config(text='Player 1 wins!')
+            self.notactoe.set_player(1)
             self.results_callback()
         elif self.notactoe.get_player() == 1:
             self.widgets['player_label'].config(text='Player 2 turn')

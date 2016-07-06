@@ -1,13 +1,11 @@
 import unittest
 
 from Computer_Player import *
-from NoTacToe import *
 
 
 class Computer_Player_test(unittest.TestCase):
     def test_init_and_get(self):
-        notactoe = NoTacToe
-        comp = Computer_Player(notactoe)
+        comp = Computer_Player()
         test_board = []
         for i in range(3):
             test_board.append([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '])

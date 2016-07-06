@@ -8,6 +8,12 @@ class NoTacToe:
     def __init__(self):
         self.active_boards = self.DEFAULT_NUM_BOARDS
         self.board_list = []
+        for i in range(self.active_boards):
+            temp_board = []
+            for j in range(9):
+                temp_board.append(' ')
+            self.board_list.append(temp_board)
+            logging.debug(self.board_list[i])
         self.dead_boards = []
         self.current_player = 1
 

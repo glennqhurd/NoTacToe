@@ -44,6 +44,14 @@ class NoTacToe:
         else:
             return False
 
+    def check_box(self, board_number, box):
+        if self.check_loser(self.board_list[board_number], board_number):
+            return False
+        if self.board_list[board_number][box] != 'X':
+            return True
+        else:
+            return False
+
     # check_loser checks the board to see if there are three Xs in a line and if so checks if the list dead_boards has
     # a value equal to index.  If the value doesn't exist it add index to the dead_boards list.
     def check_loser(self, board, index):

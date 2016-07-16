@@ -1,5 +1,8 @@
+import random
+
 from NoTacToe import *
 from tictactoe_symmetry import *
+
 
 class Computer_Player:
 
@@ -9,13 +12,27 @@ class Computer_Player:
         active = self.notactoe.get_active_boards()
         for i in range(active):
             board_list = self.notactoe.get_board(i)
-            self.total_board.append(board_list)
-
-    def set_notactoe(self, notactoe_var):
-        self.notactoe = notactoe_var
+            self.total_board += board_list
 
     def get_board_info(self):
         return self.total_board
+
+    def random_move(self):
+        move = random.randint(0, (len(self.total_board) - 1))
+        count = 0
+        board = move / 9
+        box = move % 9
+        while not self.notactoe.check_box(board, box):
+            count += 1
+            if count == len(self.total_board):
+                return
+            if move >= (len(self.total_board) - 1):
+                move = 0
+            else:
+                move += 1
+            board = move / 9
+            box = move % 9
+        return board, box
 
     def get_variable(self, board):
         # Board: ' ' | ' ' | ' '

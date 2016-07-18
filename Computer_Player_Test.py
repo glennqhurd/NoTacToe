@@ -29,9 +29,7 @@ class Computer_Player_test(unittest.TestCase):
         test = (0, 0)
         for i in range(3):
             for j in range(9):
-                if i == 0 and j == 0:
-                    pass
-                else:
+                if not i == 0 and not j == 0:
                     comp.notactoe.mark_x(i, j)
         self.assertEqual(test, comp.random_move())
 

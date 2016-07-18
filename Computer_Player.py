@@ -8,31 +8,20 @@ class Computer_Player:
 
     def __init__(self):
         self.notactoe = NoTacToe()
-        self.total_board = []
-        active = self.notactoe.get_active_boards()
-        for i in range(active):
-            board_list = self.notactoe.get_board(i)
-            self.total_board += board_list
+        self.total_board = self.notactoe.get_active_boards()
+        self.total_length = 9 * self.total_board
 
     def get_board_info(self):
         return self.total_board
 
     def random_move(self):
-        move = random.randint(0, (len(self.total_board) - 1))
-        count = 0
-        board = move / 9
-        box = move % 9
-        while not self.notactoe.check_box(board, box):
-            count += 1
-            if count == len(self.total_board):
-                return
-            if move >= (len(self.total_board) - 1):
-                move = 0
-            else:
-                move += 1
-            board = move / 9
+        move = random.randint(0, (self.total_length - 1))
+        for i in range(self.total_length):
+            board = (move % self.total_length) / 9
             box = move % 9
-        return board, box
+            if self.notactoe.check_box(board, box):
+                return board, box
+        return False, 'No valid moves'
 
     def get_variable(self, board):
         # Board: ' ' | ' ' | ' '

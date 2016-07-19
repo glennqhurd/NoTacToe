@@ -6,9 +6,7 @@ from Computer_Player import *
 class Computer_Player_test(unittest.TestCase):
     def test_init_and_get(self):
         comp = Computer_Player()
-        test_board = []
-        for i in range(3):
-            test_board += [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+        test_board = 3
         self.assertEqual(test_board, comp.get_board_info())
 
     def test_get_variable(self):
@@ -26,11 +24,15 @@ class Computer_Player_test(unittest.TestCase):
 
     def test_random_move(self):
         comp = Computer_Player()
-        test = (0, 0)
-        for i in range(3):
+        test = (2, 2)
+        for i in range(2):
             for j in range(9):
-                if not i == 0 and not j == 0:
-                    comp.notactoe.mark_x(i, j)
+                comp.notactoe.mark_x(i, j)
+        comp.notactoe.mark_x(2, 0)
+        comp.notactoe.mark_x(2, 1)
+        comp.notactoe.mark_x(2, 4)
+        comp.notactoe.mark_x(2, 5)
+        comp.notactoe.mark_x(2, 6)
         self.assertEqual(test, comp.random_move())
 
 

@@ -17,8 +17,8 @@ class Computer_Player:
     def random_move(self):
         move = random.randint(0, (self.total_length - 1))
         for i in range(self.total_length):
-            board = (move % self.total_length) / 9
-            box = move % 9
+            board = ((move + i) % self.total_length) / 9
+            box = (move + i) % 9
             if self.notactoe.check_box(board, box):
                 return board, box
         return False, 'No valid moves'

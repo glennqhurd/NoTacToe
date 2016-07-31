@@ -13,10 +13,10 @@ class Computer_Player:
         total_length = self.notactoe.get_active_boards * 9
         move = random.randint(0, (total_length - 1))
         for i in range(total_length):
-            board = ((move + i) % total_length) / 9
+            board_number = ((move + i) % total_length) / 9
             box = (move + i) % 9
-            if notactoe.check_box(board, box):
-                return board, box
+            if notactoe.check_box(board_number, box):
+                return board_number, box
         return False, 'No valid moves'
 
     def get_variable(self, board):

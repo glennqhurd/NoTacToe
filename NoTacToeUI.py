@@ -61,11 +61,11 @@ class NoTacToeUI:
         self.widgets['radio_variable'].set(1)
         self.widgets['radiobutton_player'] = Radiobutton(self.widgets['control_frame'], text="Versus Player",
                                                          variable=self.widgets['radio_variable'],
-                                                         value=self.PLAYER_MODE)
+                                                         value=self.PLAYER_MODE, command=self.radio_callback)
         self.widgets['radiobutton_player'].grid(row=2, sticky='W', padx=15)
         self.widgets['radiobutton_computer'] = Radiobutton(self.widgets['control_frame'], text="Versus Computer",
                                                            variable=self.widgets['radio_variable'],
-                                                           value=self.COMPUTER_MODE)
+                                                           value=self.COMPUTER_MODE, command=self.radio_callback)
         self.widgets['radiobutton_computer'].grid(row=3, sticky='W', padx=15)
 
     # Paints the number of canvas objects based on active boards
@@ -105,26 +105,26 @@ class NoTacToeUI:
     # Returns the number of the box based on the x, y coordinates
     def box_number(self, x, y):
         # If clicked on a line returns None
-        if x > 3 and x < 48:
-            if y > 3 and y < 48:
+        if 3 < x < 48:
+            if 3 < y < 48:
                 return 0
-            elif y > 53 and y < 98:
+            elif 53 < y < 98:
                 return 3
-            elif y > 103 and y < 148:
+            elif 103 < y < 148:
                 return 6
-        elif x > 53 and x < 98:
-            if y > 3 and y < 48:
+        elif 53 < x < 98:
+            if 3 < y < 48:
                 return 1
-            elif y > 53 and y < 98:
+            elif 53 < y < 98:
                 return 4
-            elif y > 103 and y < 148:
+            elif 103 < y < 148:
                 return 7
-        elif x > 103 and x < 148:
-            if y > 3 and y < 48:
+        elif 103 < x < 148:
+            if 3 < y < 48:
                 return 2
-            elif y > 53 and y < 98:
+            elif 53 < y < 98:
                 return 5
-            elif y > 103 and y < 148:
+            elif 103 < y < 148:
                 return 8
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
@@ -173,6 +173,12 @@ class NoTacToeUI:
 
     def quit_game(self):
         self.root.destroy()
+
+    def radio_callback(self):
+        self.notactoe.reset_game()
+        self.paint_canvas()
+        self.widgets['player_label'].config(text='Player 1 turn')
+        self.notactoe.set_player(1)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

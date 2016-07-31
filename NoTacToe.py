@@ -14,7 +14,7 @@ class NoTacToe:
                 temp_board.append(' ')
             self.board_list.append(temp_board)
             logging.debug(self.board_list[i])
-        self.dead_boards = []
+        self.dead_boards = set()
         self.current_player = 1
 
     # resets the boards to a default state
@@ -30,39 +30,32 @@ class NoTacToe:
     # resets all the member variables and boards to a default state
     def reset_game(self):
         self.create_boards()
-        self.dead_boards = []
+        self.dead_boards = set()
         self.current_player = 1
 
     # changes the board by replacing a ' ' with an 'X' if there isn't already an 'X' in place
     def mark_x(self, board_number, box):
-        if self.check_loser(self.board_list[board_number], board_number):
+        if not self.check_box(board_number, box):
             return False
-        if self.board_list[board_number][box] != 'X':
-            self.board_list[board_number][box] = 'X'
-            self.check_loser(self.board_list[board_number], board_number)
-            return True
         else:
-            return False
+            self.board_list[board_number][box] = 'X'
+            self.check_loser(board_number)
+            return True
 
     def check_box(self, board_number, box):
-        if self.check_loser(self.board_list[board_number], board_number):
-            return False
-        if self.board_list[board_number][box] != 'X':
+        if self.board_list[board_number][box] == ' ' and board_number not in self.dead_boards:
             return True
         else:
             return False
 
     # check_loser checks the board to see if there are three Xs in a line and if so checks if the list dead_boards has
     # a value equal to index.  If the value doesn't exist it add index to the dead_boards list.
-    def check_loser(self, board, index):
+    def check_loser(self, index):
         for i in self.LOSING_POSITIONS:
-            if board[i[0]] == 'X' and board[i[1]] == 'X' and board[i[2]] == 'X':
-                exists = False
-                for i in range(len(self.dead_boards)):
-                    if self.dead_boards[i] == index:
-                        exists = True
-                if not exists:
-                    self.dead_boards.append(index)
+            if self.board_list[index][i[0]] == 'X' and self.board_list[index][i[1]] == 'X' and \
+                            self.board_list[index][i[2]] == 'X':
+                if index not in self.dead_boards:
+                    self.dead_boards.add(index)
                 return True
         return False
 

@@ -6,20 +6,16 @@ from tictactoe_symmetry import *
 
 class Computer_Player:
 
-    def __init__(self):
-        self.notactoe = NoTacToe()
-        self.total_board = self.notactoe.get_active_boards()
-        self.total_length = 9 * self.total_board
-
-    def get_board_info(self):
-        return self.total_board
+    def __init__(self, notactoe):
+        self.notactoe = notactoe
 
     def random_move(self):
-        move = random.randint(0, (self.total_length - 1))
-        for i in range(self.total_length):
-            board = ((move + i) % self.total_length) / 9
+        total_length = self.notactoe.get_active_boards * 9
+        move = random.randint(0, (total_length - 1))
+        for i in range(total_length):
+            board = ((move + i) % total_length) / 9
             box = (move + i) % 9
-            if self.notactoe.check_box(board, box):
+            if notactoe.check_box(board, box):
                 return board, box
         return False, 'No valid moves'
 

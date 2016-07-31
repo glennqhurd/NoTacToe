@@ -1,6 +1,5 @@
 import random
 
-from NoTacToe import *
 from tictactoe_symmetry import *
 
 
@@ -15,7 +14,8 @@ class ComputerPlayer:
         for i in range(total_length):
             board_number = ((move + i) % total_length) / 9
             box = (move + i) % 9
-            if notactoe.check_box(board_number, box):
+            if self.notactoe.check_box(board_number, box):
+                self.notactoe.mark_x(board_number, box)
                 return board_number, box
         return False, 'No valid moves'
 

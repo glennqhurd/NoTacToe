@@ -18,7 +18,7 @@ class NoTacToeUI:
         # Creates a new instance of NoTacToe (the game logic class)
         self.notactoe = NoTacToe()
         self.comp_player = ComputerPlayer(self.notactoe)
-        self.notactoe.create_boards()
+        self.notactoe.reset_game()
         # root is the base window that holds the frames
         self.root = Tk()
         # widgets is a dict used to store all the member variable widgets in the program
@@ -74,7 +74,6 @@ class NoTacToeUI:
             self.widgets['canvas'][i].delete("all")
             self.widgets['canvas'][i].unbind('<Button-1>')
         for i in range(self.notactoe.get_num_active_boards()):
-            logging.debug(i)
             self.widgets['canvas'][i].bind('<Button-1>', lambda e, j=i: self.click(e, j))
             self.widgets['canvas'][i].create_line(0, 50, 150, 50)
             self.widgets['canvas'][i].create_line(0, 100, 150, 100)
@@ -91,7 +90,6 @@ class NoTacToeUI:
     # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the
     # NoTacToe method
     def click(self, event, index):
-        logging.debug(index)
         box = self.box_number(event.x, event.y)
         if box >= 0:
             if self.notactoe.mark_x(index, box):

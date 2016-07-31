@@ -15,7 +15,6 @@ class NoTacToe:
         for i in range(self.num_active_boards):
             temp_board = [' '] * 9
             self.board_list.append(temp_board)
-            logging.debug(self.board_list[i])
         self.dead_boards = set()
         self.current_player = 1
 

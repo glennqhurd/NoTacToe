@@ -1,7 +1,7 @@
 from Tkinter import *
 from ttk import *
 
-from Computer_Player import *
+from ComputerPlayer import *
 
 
 class NoTacToeUI:
@@ -17,7 +17,7 @@ class NoTacToeUI:
     def __init__(self):
         # Creates a new instance of NoTacToe (the game logic class)
         self.notactoe = NoTacToe()
-        self.comp_player = Computer_Player(self.notactoe)
+        self.comp_player = ComputerPlayer(self.notactoe)
         self.notactoe.create_boards()
         # root is the base window that holds the frames
         self.root = Tk()
@@ -26,7 +26,7 @@ class NoTacToeUI:
         # widgets['canvas'] is the dict within a dict that store all the Canvas member variables
         self.widgets['canvas'] = {}
         self.active_boards = 3
-        self.notactoe.set_active_boards(self.active_boards)
+        self.notactoe.set_num_active_boards(self.active_boards)
         title_frame = Frame(self.root)
         title_frame.grid(row=0, columnspan=2)
         Label(title_frame, text='Time to play NoTacToe!').grid(row=0)
@@ -73,7 +73,7 @@ class NoTacToeUI:
         for i in range(self.MAX_CANVAS):
             self.widgets['canvas'][i].delete("all")
             self.widgets['canvas'][i].unbind('<Button-1>')
-        for i in range(self.notactoe.get_active_boards()):
+        for i in range(self.notactoe.get_num_active_boards()):
             logging.debug(i)
             self.widgets['canvas'][i].bind('<Button-1>', lambda e, j=i: self.click(e, j))
             self.widgets['canvas'][i].create_line(0, 50, 150, 50)
@@ -148,7 +148,7 @@ class NoTacToeUI:
 
     def board_option_callback(self, unused_var):
         self.active_boards = self.widgets['board_variable'].get()
-        self.notactoe.set_active_boards(self.active_boards)
+        self.notactoe.set_num_active_boards(self.active_boards)
         self.notactoe.reset_game()
         self.paint_canvas()
 

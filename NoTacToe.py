@@ -7,6 +7,9 @@ class NoTacToe:
 
     def __init__(self):
         self.num_active_boards = self.DEFAULT_NUM_BOARDS
+        self.board_list = []
+        self.dead_boards = set()
+        self.current_player = 1
         self.reset_game()
 
     # resets all the member variables and boards to a default state

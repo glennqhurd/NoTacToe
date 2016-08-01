@@ -26,6 +26,7 @@ class NoTacToeUI:
         self.widgets = {}
         # widgets['canvas'] is the dict within a dict that store all the Canvas member variables
         self.canvases = {}
+        self.canvas_labels = {}
         self.game_in_progress = True
         self.active_boards = 3
         self.notactoe.set_num_active_boards(self.active_boards)
@@ -47,6 +48,8 @@ class NoTacToeUI:
         for i in range(self.MAX_CANVAS):
             self.canvases[i] = Canvas(self.widgets['canvas_frame'], width=150, height=150)
             self.canvases[i].grid(row=(i/3), column=(i % 3), padx=10, pady=10)
+            self.canvas_labels[i] = Label(self.widgets['canvas_frame'], text='1', width=2)
+            self.canvas_labels[i].grid(row=(i / 3 + 1), column=(i % 3), padx=10, pady=(0, 10))
         self.paint_canvas()
 
     # Creates and displays the control options frame
@@ -69,6 +72,9 @@ class NoTacToeUI:
                                                            variable=self.widgets['radio_variable'],
                                                            value=self.COMPUTER_MODE, command=self.reset_callback)
         self.widgets['radiobutton_computer'].grid(row=3, sticky='W', padx=15)
+        Label(self.widgets['control_frame'], text='Composite:').grid(row=4, padx=15, pady=(120, 5))
+        self.widgets['composite_label'] = Label(self.widgets['control_frame'], text='1')
+        self.widgets['composite_label'].grid(row=5, padx=15, pady=5)
 
     def bottom_window(self):
         self.widgets['bottom_frame'] = Frame(self.root)
@@ -76,7 +82,6 @@ class NoTacToeUI:
         self.widgets['reset_button'] = Button(self.widgets['bottom_frame'], text='Reset Game',
                                               command=self.reset_callback)
         self.widgets['reset_button'].grid(row=0)
-
 
     # Paints the number of canvas objects based on active boards
     def paint_canvas(self):
@@ -89,12 +94,6 @@ class NoTacToeUI:
             self.canvases[i].create_line(0, 100, 150, 100)
             self.canvases[i].create_line(50, 0, 50, 150)
             self.canvases[i].create_line(100, 0, 100, 150)
-
-    def draw_x(self, box, canvas):
-        canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 10),
-                                                  ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 40))
-        canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 40),
-                                                  ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 10))
 
     # Callback to respond when mouse click occurs in a canvas that the click is bound to.  event returns where the
     # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the
@@ -109,31 +108,6 @@ class NoTacToeUI:
                     board, box = self.comp_player.random_move()
                     self.draw_x(box, self.canvases[board])
                     self.change_player()
-
-    # Returns the number of the box based on the x, y coordinates
-    def box_number(self, x, y):
-        # If clicked on a line returns None
-        if 3 < x < 48:
-            if 3 < y < 48:
-                return 0
-            elif 53 < y < 98:
-                return 3
-            elif 103 < y < 148:
-                return 6
-        elif 53 < x < 98:
-            if 3 < y < 48:
-                return 1
-            elif 53 < y < 98:
-                return 4
-            elif 103 < y < 148:
-                return 7
-        elif 103 < x < 148:
-            if 3 < y < 48:
-                return 2
-            elif 53 < y < 98:
-                return 5
-            elif 103 < y < 148:
-                return 8
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):
@@ -191,6 +165,38 @@ class NoTacToeUI:
         self.widgets['player_label'].config(text='Player 1\'s turn')
         self.notactoe.set_player(1)
         self.game_in_progress = True
+
+    # Static functions
+    def draw_x(self, box, canvas):
+        canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 10),
+                           ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 40))
+        canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 40),
+                           ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 10))
+
+    # Returns the number of the box based on the x, y coordinates
+    def box_number(self, x, y):
+        # If clicked on a line returns None
+        if 3 < x < 48:
+            if 3 < y < 48:
+                return 0
+            elif 53 < y < 98:
+                return 3
+            elif 103 < y < 148:
+                return 6
+        elif 53 < x < 98:
+            if 3 < y < 48:
+                return 1
+            elif 53 < y < 98:
+                return 4
+            elif 103 < y < 148:
+                return 7
+        elif 103 < x < 148:
+            if 3 < y < 48:
+                return 2
+            elif 53 < y < 98:
+                return 5
+            elif 103 < y < 148:
+                return 8
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

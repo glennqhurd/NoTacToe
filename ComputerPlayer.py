@@ -7,6 +7,18 @@ class ComputerPlayer:
 
     def __init__(self, notactoe):
         self.notactoe = notactoe
+        # board_variables stores the non-constant values of the boards
+        self.board_variables = {'         ': 'c', '    X    ': 'cc', 'XX       ': 'ad', 'X X      ': 'b',
+                                'X   X    ': 'b', 'X    X   ': 'b', 'X       X': 'a', ' X X     ': 'a',
+                                ' X  X    ': 'b', ' X     X ': 'a', 'XX X     ': 'b', 'XX  X    ': 'ab',
+                                'XX   X   ': 'd', 'XX    X  ': 'a', 'XX     X ': 'd', 'XX      X': 'd',
+                                'X X X    ': 'a', 'X X   X  ': 'ab', 'X X    X ': 'a', 'X   XX   ': 'a',
+                                ' X XX    ': 'ab', ' X X X   ': 'b', 'XX XX    ': 'a', 'XX X X   ': 'a',
+                                'XX X    X': 'a', 'XX  XX   ': 'b', 'XX  X X  ': 'b', 'XX   XX  ': 'b',
+                                'XX   X X ': 'ab', 'XX   X  X': 'ab', 'XX    XX ': 'b', 'XX    X X': 'b',
+                                'XX     XX': 'a', 'X X X  X ': 'b', 'X X   X X': 'a', 'X   XX X ': 'b',
+                                ' X X X X ': 'a', 'XX X X X ': 'b', 'XX X X  X': 'b', 'XX  XXX  ': 'a',
+                                'XX   XXX ': 'a', 'XX   XX X': 'a', 'XX X X XX': 'a'}
 
     def random_move(self):
         total_length = self.notactoe.get_num_active_boards() * 9

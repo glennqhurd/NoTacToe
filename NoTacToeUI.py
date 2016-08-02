@@ -99,14 +99,14 @@ class NoTacToeUI:
     # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the
     # NoTacToe method
     def click(self, event, index):
-        box = self.box_number(event.x, event.y)
+        box = box_number(event.x, event.y)
         if box >= 0:
             if self.notactoe.mark_x(index, box):
-                self.draw_x(box, event.widget)
+                draw_x(box, event.widget)
                 self.change_player()
                 if self.widgets['radio_variable'].get() == self.COMPUTER_MODE and self.game_in_progress:
                     board, box = self.comp_player.random_move()
-                    self.draw_x(box, self.canvases[board])
+                    draw_x(box, self.canvases[board])
                     self.change_player()
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
@@ -166,37 +166,39 @@ class NoTacToeUI:
         self.notactoe.set_player(1)
         self.game_in_progress = True
 
-    # Static functions
-    def draw_x(self, box, canvas):
-        canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 10),
-                           ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 40))
-        canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 40),
-                           ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 10))
 
-    # Returns the number of the box based on the x, y coordinates
-    def box_number(self, x, y):
-        # If clicked on a line returns None
-        if 3 < x < 48:
-            if 3 < y < 48:
-                return 0
-            elif 53 < y < 98:
-                return 3
-            elif 103 < y < 148:
-                return 6
-        elif 53 < x < 98:
-            if 3 < y < 48:
-                return 1
-            elif 53 < y < 98:
-                return 4
-            elif 103 < y < 148:
-                return 7
-        elif 103 < x < 148:
-            if 3 < y < 48:
-                return 2
-            elif 53 < y < 98:
-                return 5
-            elif 103 < y < 148:
-                return 8
+# Static functions
+def draw_x(box, canvas):
+    canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 10),
+                       ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 40))
+    canvas.create_line(((box % 3) * 50 + 10), ((int(box / 3) * 50) + 40),
+                       ((box % 3) * 50 + 40), ((int(box / 3) * 50) + 10))
+
+
+# Returns the number of the box based on the x, y coordinates
+def box_number(x, y):
+    # If clicked on a line returns None
+    if 3 < x < 48:
+        if 3 < y < 48:
+            return 0
+        elif 53 < y < 98:
+            return 3
+        elif 103 < y < 148:
+            return 6
+    elif 53 < x < 98:
+        if 3 < y < 48:
+            return 1
+        elif 53 < y < 98:
+            return 4
+        elif 103 < y < 148:
+            return 7
+    elif 103 < x < 148:
+        if 3 < y < 48:
+            return 2
+        elif 53 < y < 98:
+            return 5
+        elif 103 < y < 148:
+            return 8
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

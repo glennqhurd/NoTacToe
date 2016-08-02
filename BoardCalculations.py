@@ -1,3 +1,5 @@
+import random
+
 MONOID_LABELS = ('1', 'a', 'b', 'ab', 'b2', 'abc', 'c', 'ac', 'bc', 'abc', 'c2', 'ac2', 'bc2', 'abc2', 'd', 'ad', 'bd',
                  'abd')
 
@@ -13,7 +15,12 @@ BOARD_VALUES = {'         ': 'c', '    X    ': 'cc', 'XX       ': 'ad', 'X X    
                 ' X X X X ': 'a', 'XX X X X ': 'b', 'XX X X  X': 'b', 'XX  XXX  ': 'a',
                 'XX   XXX ': 'a', 'XX   XX X': 'a', 'XX X X XX': 'a'}
 
-class BoardCalculations:
-    def board_value(self, board):
-        return BOARD_VALUES[board]
 
+def board_value(board):
+    return random.randint(0, 17)
+
+def multiply(*nums):
+    answer = 1
+    for i in nums:
+        answer *= i
+    return answer % 18

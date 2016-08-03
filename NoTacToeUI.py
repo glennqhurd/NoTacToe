@@ -14,6 +14,8 @@ class NoTacToeUI:
     BOARD_NUMBER_TUPLE = (3, 1, 2, 3)
     PLAYER_MODE = 0
     COMPUTER_MODE = 1
+    MONOID_LABELS = ('1', 'a', 'b', 'ab', 'b2', 'abc', 'c', 'ac', 'bc', 'abc', 'c2', 'ac2', 'bc2', 'abc2', 'd', 'ad',
+                     'bd', 'abd')
 
     def __init__(self):
         # Creates a new instance of NoTacToe (the game logic class)
@@ -165,6 +167,9 @@ class NoTacToeUI:
         self.widgets['player_label'].config(text='Player 1\'s turn')
         self.notactoe.set_player(1)
         self.game_in_progress = True
+
+    def translate_value(self, value):
+        return self.MONOID_LABELS[value]
 
 
 # Static functions

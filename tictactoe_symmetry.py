@@ -34,7 +34,7 @@ def symmetric_sets(board_string):
 
 def canonical_board(board_string):
     symmetric = symmetric_boards(board_string)
-    canonical = min(symmetric)
+    canonical = max(symmetric)
     board_index = symmetric.index(canonical)
     return canonical, board_index
 

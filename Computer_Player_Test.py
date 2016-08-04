@@ -40,9 +40,9 @@ class Computer_Player_test(unittest.TestCase):
         notactoe = NoTacToe()
         comp = ComputerPlayer(notactoe)
         test_board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-        self.assertEqual(6, comp.get_variable_index(test_board))
+        self.assertEqual('c', comp.get_variable(test_board))
         test_board = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
-        self.assertEqual(0, comp.get_variable_index(test_board))
+        self.assertEqual('1', comp.get_variable(test_board))
 
 
 if __name__ == '__main__':

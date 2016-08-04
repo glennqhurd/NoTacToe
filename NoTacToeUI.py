@@ -36,8 +36,8 @@ class NoTacToeUI:
         title_frame.grid(row=0, columnspan=2)
         Label(title_frame, text='Time to play NoTacToe!').grid(row=0)
         Label(title_frame, text='Rules:\n(1) Both players play X.\n(2) Once a board has three-in-a-row it dies.\n'
-              '(3) The player who kills the last board loses.').grid(row=1)
-        self.widgets['player_label'] = Label(title_frame, text='Player 1 turn')
+              '(3) The player who kills the last board loses.').grid(row=1, pady=10)
+        self.widgets['player_label'] = Label(title_frame, text='Player 1 turn', font='bold')
         self.widgets['player_label'].grid(row=2)
         self.canvas_window()
         self.control_window()
@@ -46,7 +46,7 @@ class NoTacToeUI:
     # Creates and displays the canvas objects in a frame
     def canvas_window(self):
         self.widgets['canvas_frame'] = Frame(self.root)
-        self.widgets['canvas_frame'].grid(row=1)
+        self.widgets['canvas_frame'].grid(row=1, padx=15)
         for i in range(self.MAX_CANVAS):
             self.canvases[i] = Canvas(self.widgets['canvas_frame'], width=150, height=150)
             self.canvases[i].grid(row=(i/3), column=(i % 3), padx=10, pady=10)
@@ -63,27 +63,27 @@ class NoTacToeUI:
         self.widgets['board_variable'].set(self.active_boards)
         self.widgets['board_option'] = OptionMenu(self.widgets['control_frame'], self.widgets['board_variable'],
                                                   *self.BOARD_NUMBER_TUPLE, command=self.board_option_callback)
-        self.widgets['board_option'].grid(row=1, padx=15, pady=15)
+        self.widgets['board_option'].grid(row=1, padx=20, pady=15)
         self.widgets['radio_variable'] = IntVar()
         self.widgets['radio_variable'].set(1)
         self.widgets['radiobutton_player'] = Radiobutton(self.widgets['control_frame'], text="Versus Player",
                                                          variable=self.widgets['radio_variable'],
                                                          value=self.PLAYER_MODE, command=self.reset_callback)
-        self.widgets['radiobutton_player'].grid(row=2, sticky='W', padx=15)
+        self.widgets['radiobutton_player'].grid(row=2, sticky='W', padx=20)
         self.widgets['radiobutton_computer'] = Radiobutton(self.widgets['control_frame'], text="Versus Computer",
                                                            variable=self.widgets['radio_variable'],
                                                            value=self.COMPUTER_MODE, command=self.reset_callback)
-        self.widgets['radiobutton_computer'].grid(row=3, sticky='W', padx=15)
-        Label(self.widgets['control_frame'], text='Composite:').grid(row=4, padx=15, pady=(120, 5))
+        self.widgets['radiobutton_computer'].grid(row=3, sticky='W', padx=20)
+        Label(self.widgets['control_frame'], text='Composite:').grid(row=4, padx=20, pady=(120, 5))
         self.widgets['composite_label'] = Label(self.widgets['control_frame'], text='1')
-        self.widgets['composite_label'].grid(row=5, padx=15, pady=5)
+        self.widgets['composite_label'].grid(row=5, padx=20, pady=5)
 
     def bottom_window(self):
         self.widgets['bottom_frame'] = Frame(self.root)
         self.widgets['bottom_frame'].grid(row=2, columnspan=2)
         self.widgets['reset_button'] = Button(self.widgets['bottom_frame'], text='Reset Game',
                                               command=self.reset_callback)
-        self.widgets['reset_button'].grid(row=0)
+        self.widgets['reset_button'].grid(row=0, pady=(0, 15))
 
     # Paints the number of canvas objects based on active boards
     def paint_canvas(self):
@@ -97,13 +97,15 @@ class NoTacToeUI:
             self.canvases[i].create_line(0, 100, 150, 100)
             self.canvases[i].create_line(50, 0, 50, 150)
             self.canvases[i].create_line(100, 0, 100, 150)
-            self.canvas_labels[i].config(text='1')
+            self.canvas_labels[i].config(text='c')
 
     # Callback to respond when mouse click occurs in a canvas that the click is bound to.  event returns where the
     # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the
     # NoTacToe method
+
     def click(self, event, index):
         box = box_number(event.x, event.y)
+
         if box >= 0:
             if self.notactoe.mark_x(index, box):
                 draw_x(box, event.widget)
@@ -140,28 +142,6 @@ class NoTacToeUI:
         self.notactoe.reset_game()
         self.paint_canvas()
         self.game_in_progress = True
-
-    # def results_callback(self):
-    #     self.widgets['results_window'] = Toplevel()
-    #     self.widgets['results_window'].wm_title('Game Over')
-    #     Label(self.widgets['results_window'],
-    #           text='Game over!  Player %d wins!' % self.notactoe.current_player).grid(row=0, columnspan=2, pady=15,
-    #                                                                                   padx=15)
-    #     Button(self.widgets['results_window'], text='Play Again',
-    #            command=lambda x=self.widgets['results_window']: self.play_again_callback(x)).grid(row=1, pady=(0, 15),
-    #                                                                                               padx=15)
-    #     Button(self.widgets['results_window'], text='Quit', command=self.quit_game).grid(row=1, column=1, pady=(0, 15),
-    #                                                                                      padx=15)
-
-    # def play_again_callback(self, window):
-    #     self.notactoe.reset_game()
-    #     self.paint_canvas()
-    #     self.widgets['player_label'].config(text='Player 1\'s turn')
-    #     self.notactoe.set_player(1)
-    #     window.destroy()
-
-    # def quit_game(self):
-    #     self.root.destroy()
 
     def reset_callback(self):
         self.notactoe.reset_game()

@@ -58,7 +58,7 @@ class NoTacToeUI:
     def control_window(self):
         self.widgets['control_frame'] = Frame(self.root)
         self.widgets['control_frame'].grid(row=0, column=1, rowspan=2)
-        Label(self.widgets['control_frame'], text='Game mode:').grid(row=0)
+        Label(self.widgets['control_frame'], text='Number of Boards:').grid(row=0)
         self.widgets['board_variable'] = IntVar()
         self.widgets['board_variable'].set(self.active_boards)
         self.widgets['board_option'] = OptionMenu(self.widgets['control_frame'], self.widgets['board_variable'],
@@ -90,12 +90,14 @@ class NoTacToeUI:
         for i in range(self.MAX_CANVAS):
             self.canvases[i].delete("all")
             self.canvases[i].unbind('<Button-1>')
+            self.canvas_labels[i].config(text=' ')
         for i in range(self.notactoe.get_num_active_boards()):
             self.canvases[i].bind('<Button-1>', lambda e, j=i: self.click(e, j))
             self.canvases[i].create_line(0, 50, 150, 50)
             self.canvases[i].create_line(0, 100, 150, 100)
             self.canvases[i].create_line(50, 0, 50, 150)
             self.canvases[i].create_line(100, 0, 100, 150)
+            self.canvas_labels[i].config(text='1')
 
     # Callback to respond when mouse click occurs in a canvas that the click is bound to.  event returns where the
     # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the

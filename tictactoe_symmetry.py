@@ -24,12 +24,16 @@ def apply_symmetry(board_string, symmetry):
     return ''.join([board_string[SYMMETRY_TUPLE[symmetry][i]] for i in range(len(board_string))])
 
 
-def symmetric_boards(boardString):
-    return [apply_symmetry(boardString, i) for i in range(len(SYMMETRY_TUPLE))]
+def symmetric_boards(board_string):
+    return [apply_symmetry(board_string, i) for i in range(len(SYMMETRY_TUPLE))]
 
 
-def canonical_board(boardString):
-    symmetric = symmetric_boards(boardString)
+def symmetric_sets(board_string):
+    return {apply_symmetry(board_string, i) for i in range(len(SYMMETRY_TUPLE))}
+
+
+def canonical_board(board_string):
+    symmetric = symmetric_boards(board_string)
     canonical = min(symmetric)
     board_index = symmetric.index(canonical)
     return canonical, board_index

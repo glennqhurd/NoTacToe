@@ -31,7 +31,7 @@ class ComputerPlayer:
                 return board_number, box
         return False, 'No valid moves'
 
-    def get_variable(self, board):
-        if ''.join(board) in self.BOARD_VARIABLES:
-            return self.MONOID_LABELS[self.BOARD_VARIABLES[''.join(board)]]
+    def get_variable(self, board_index):
+        if ''.join(self.notactoe.board_list[board_index]) in self.BOARD_VARIABLES:
+            return self.MONOID_LABELS[self.BOARD_VARIABLES[''.join(self.notactoe.board_list[board_index])]]
         return self.MONOID_LABELS[0]

@@ -39,10 +39,10 @@ class Computer_Player_test(unittest.TestCase):
     def test_get_variable(self):
         notactoe = NoTacToe()
         comp = ComputerPlayer(notactoe)
-        test_board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-        self.assertEqual('c', comp.get_variable(test_board))
-        test_board = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
-        self.assertEqual('1', comp.get_variable(test_board))
+        notactoe.board_list[0] = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+        self.assertEqual('c', comp.get_variable(0))
+        notactoe.board_list[0] = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
+        self.assertEqual('1', comp.get_variable(0))
 
 
 if __name__ == '__main__':

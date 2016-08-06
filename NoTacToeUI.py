@@ -110,10 +110,12 @@ class NoTacToeUI:
             if self.notactoe.mark_x(index, box):
                 draw_x(box, event.widget)
                 self.change_player()
+                self.canvas_labels[index].config(text=self.comp_player.get_variable(index))
                 if self.widgets['radio_variable'].get() == self.COMPUTER_MODE and self.game_in_progress:
                     board, box = self.comp_player.random_move()
                     draw_x(box, self.canvases[board])
                     self.change_player()
+                    self.canvas_labels[board].config(text=self.comp_player.get_variable(board))
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):

@@ -1,6 +1,7 @@
 from Tkinter import *
 from ttk import *
 
+import BoardCalculations
 from ComputerPlayer import *
 from NoTacToe import *
 
@@ -103,19 +104,21 @@ class NoTacToeUI:
     # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the
     # NoTacToe method
 
-    def click(self, event, index):
+    def click(self, event, board_num):
         box = box_number(event.x, event.y)
-
         if box >= 0:
-            if self.notactoe.mark_x(index, box):
+            if self.notactoe.mark_x(board_num, box):
                 draw_x(box, event.widget)
                 self.change_player()
-                self.canvas_labels[index].config(text=self.comp_player.get_variable(index))
+                self.update_monoid_labels(board_num)
                 if self.widgets['radio_variable'].get() == self.COMPUTER_MODE and self.game_in_progress:
                     board, box = self.comp_player.random_move()
                     draw_x(box, self.canvases[board])
                     self.change_player()
-                    self.canvas_labels[board].config(text=self.comp_player.get_variable(board))
+                    self.update_monoid_labels(board)
+
+    def update_monoid_labels(self, board_num):
+        self.canvas_labels[board_num].config(text=BoardCalculations.get_monoid(board_num, self.notactoe))
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):

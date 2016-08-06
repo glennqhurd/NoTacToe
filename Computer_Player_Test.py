@@ -13,15 +13,15 @@ class Computer_Player_test(unittest.TestCase):
     # def test_get_variable(self):
     #     comp = ComputerPlayer()
     #     test_board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-    #     self.assertEqual('c', comp.get_variable(test_board))
+    #     self.assertEqual('c', comp.get_monoid(test_board))
     #     test_board = [' ', ' ', ' ', ' ', 'X', ' ', ' ', ' ', ' ']
-    #     self.assertEqual('c2', comp.get_variable(test_board))
+    #     self.assertEqual('c2', comp.get_monoid(test_board))
     #     test_board = ['X', 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-    #     self.assertEqual('ad', comp.get_variable(test_board))
+    #     self.assertEqual('ad', comp.get_monoid(test_board))
     #     test_board = ['X', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' ']
-    #     self.assertEqual('b', comp.get_variable(test_board))
+    #     self.assertEqual('b', comp.get_monoid(test_board))
     #     test_board = ['X', ' ', ' ', ' ', ' ', ' ', 'X', ' ', ' ']
-    #     # self.assertEqual('b', comp.get_variable(test_board))
+    #     # self.assertEqual('b', comp.get_monoid(test_board))
     #
     # def test_random_move(self):
     #     comp = ComputerPlayer()
@@ -40,9 +40,9 @@ class Computer_Player_test(unittest.TestCase):
         notactoe = NoTacToe()
         comp = ComputerPlayer(notactoe)
         notactoe.board_list[0] = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-        self.assertEqual('c', comp.get_variable(0))
+        self.assertEqual('c', comp.get_monoid(0))
         notactoe.board_list[0] = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
-        self.assertEqual('1', comp.get_variable(0))
+        self.assertEqual('1', comp.get_monoid(0))
 
 
 if __name__ == '__main__':

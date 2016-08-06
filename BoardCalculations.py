@@ -1,19 +1,22 @@
 import random
 
+from tictactoe_symmetry import *
+
 MONOID_LABELS = ('1', 'a', 'b', 'ab', 'b2', 'abc', 'c', 'ac', 'bc', 'abc', 'c2', 'ac2', 'bc2', 'abc2', 'd', 'ad', 'bd',
                  'abd')
 
-BOARD_VALUES = {'         ': 'c', '    X    ': 'cc', 'XX       ': 'ad', 'X X      ': 'b',
-                'X   X    ': 'b', 'X    X   ': 'b', 'X       X': 'a', ' X X     ': 'a',
-                ' X  X    ': 'b', ' X     X ': 'a', 'XX X     ': 'b', 'XX  X    ': 'ab',
-                'XX   X   ': 'd', 'XX    X  ': 'a', 'XX     X ': 'd', 'XX      X': 'd',
-                'X X X    ': 'a', 'X X   X  ': 'ab', 'X X    X ': 'a', 'X   XX   ': 'a',
-                ' X XX    ': 'ab', ' X X X   ': 'b', 'XX XX    ': 'a', 'XX X X   ': 'a',
-                'XX X    X': 'a', 'XX  XX   ': 'b', 'XX  X X  ': 'b', 'XX   XX  ': 'b',
-                'XX   X X ': 'ab', 'XX   X  X': 'ab', 'XX    XX ': 'b', 'XX    X X': 'b',
-                'XX     XX': 'a', 'X X X  X ': 'b', 'X X   X X': 'a', 'X   XX X ': 'b',
-                ' X X X X ': 'a', 'XX X X X ': 'b', 'XX X X  X': 'b', 'XX  XXX  ': 'a',
-                'XX   XXX ': 'a', 'XX   XX X': 'a', 'XX X X XX': 'a'}
+# BOARD_VALUES stores the non-constant values of the boards
+BOARD_VALUES = {'         ': 6, '    X    ': 10, 'XX       ': 15, 'X X      ': 2,
+                'X   X    ': 2, 'X    X   ': 2, 'X       X': 1, ' X X     ': 1,
+                ' X  X    ': 2, ' X     X ': 1, 'XX X     ': 2, 'XX  X    ': 3,
+                'XX   X   ': 14, 'XX    X  ': 1, 'XX     X ': 14, 'XX      X': 14,
+                'X X X    ': 1, 'X X   X  ': 3, 'X X    X ': 1, 'X   XX   ': 1,
+                ' X XX    ': 3, ' X X X   ': 2, 'XX XX    ': 1, 'XX X X   ': 1,
+                'XX X    X': 1, 'XX  XX   ': 2, 'XX  X X  ': 2, 'XX   XX  ': 2,
+                'XX   X X ': 3, 'XX   X  X': 3, 'XX    XX ': 2, 'XX    X X': 2,
+                'XX     XX': 1, 'X X X  X ': 2, 'X X   X X': 1, 'X   XX X ': 2,
+                ' X X X X ': 1, 'XX X X X ': 2, 'XX X X  X': 2, 'XX  XXX  ': 1,
+                'XX   XXX ': 1, 'XX   XX X': 1, 'XX X X XX': 1}
 
 LOOKUP_TABLE = {(6, 9): 13, (10, 17): 17, (7, 12): 12, (1, 17): 16, (0, 7): 7, (13, 17): 14, (14, 17): 13, (1, 6): 7,
                 (0, 10): 10, (3, 7): 8, (2, 5): 3, (1, 11): 10, (5, 8): 9, (6, 7): 11, (6, 10): 11, (0, 17): 17,
@@ -45,3 +48,10 @@ def multiply(*nums):
     for i in nums:
         answer *= i
     return answer % 18
+
+
+def get_monoid(board_index, notactoe):
+    symmetry, index = canonical_board(''.join(notactoe.board_list[board_index]))
+    if symmetry in BOARD_VALUES:
+        return MONOID_LABELS[BOARD_VALUES[symmetry]]
+    return MONOID_LABELS[0]

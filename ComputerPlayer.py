@@ -1,7 +1,5 @@
 import random
 
-from tictactoe_symmetry import *
-
 
 class ComputerPlayer:
     MONOID_LABELS = ('1', 'a', 'b', 'ab', 'b2', 'abc', 'c', 'ac', 'bc', 'abc', 'cc', 'ac2', 'bcc', 'abcc', 'd', 'ad',
@@ -33,8 +31,3 @@ class ComputerPlayer:
                 return board_number, box
         return False, 'No valid moves'
 
-    def get_variable(self, board_index):
-        symmetry = canonical_board(''.join(self.notactoe.board_list[board_index]))
-        if symmetry in self.BOARD_VARIABLES:
-            return self.MONOID_LABELS[self.BOARD_VARIABLES[symmetry]]
-        return self.MONOID_LABELS[0]

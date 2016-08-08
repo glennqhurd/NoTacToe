@@ -31,8 +31,7 @@ class NoTacToeUI:
         self.canvases = {}
         self.canvas_labels = {}
         self.game_in_progress = True
-        self.active_boards = 3
-        self.notactoe.set_num_active_boards(self.active_boards)
+        self.notactoe.set_num_active_boards(3)
         title_frame = Frame(self.root)
         title_frame.grid(row=0, columnspan=2)
         Label(title_frame, text='Time to play NoTacToe!').grid(row=0)
@@ -43,6 +42,8 @@ class NoTacToeUI:
         self.canvas_window()
         self.control_window()
         self.bottom_window()
+        for i in range(self.MAX_CANVAS):
+            self.update_monoid_labels(i)
 
     # Creates and displays the canvas objects in a frame
     def canvas_window(self):
@@ -61,7 +62,9 @@ class NoTacToeUI:
         self.widgets['control_frame'].grid(row=0, column=1, rowspan=2)
         Label(self.widgets['control_frame'], text='Number of Boards:').grid(row=0)
         self.widgets['board_variable'] = IntVar()
-        self.widgets['board_variable'].set(self.active_boards)
+        self.widgets['board_variable'].set(self.notactoe.get_num_active_boards())
+        self.widgets['combined_monoid'] = Label(self.widgets['control_frame'], text='1')
+        self.widgets['combined_monoid'].grid(row=5, padx=20, pady=5)
         self.widgets['board_option'] = OptionMenu(self.widgets['control_frame'], self.widgets['board_variable'],
                                                   *self.BOARD_NUMBER_TUPLE, command=self.board_option_callback)
         self.widgets['board_option'].grid(row=1, padx=20, pady=15)
@@ -76,8 +79,6 @@ class NoTacToeUI:
                                                            value=self.COMPUTER_MODE, command=self.reset_callback)
         self.widgets['radiobutton_computer'].grid(row=3, sticky='W', padx=20)
         Label(self.widgets['control_frame'], text='Composite:').grid(row=4, padx=20, pady=(120, 5))
-        self.widgets['combined_monoid'] = Label(self.widgets['control_frame'], text='1')
-        self.widgets['combined_monoid'].grid(row=5, padx=20, pady=5)
 
     def bottom_window(self):
         self.widgets['bottom_frame'] = Frame(self.root)
@@ -126,12 +127,13 @@ class NoTacToeUI:
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):
-        if self.notactoe.get_player() == 1 and len(self.notactoe.dead_boards) == self.active_boards:
+        if self.notactoe.get_player() == 1 and len(self.notactoe.dead_boards) == self.notactoe.get_num_active_boards():
             self.widgets['player_label'].config(text='Player 2 wins!')
             self.notactoe.set_player(2)
             self.game_in_progress = False
             # self.results_callback()
-        elif self.notactoe.get_player() == 2 and len(self.notactoe.dead_boards) == self.active_boards:
+        elif self.notactoe.get_player() == 2 and len(self.notactoe.dead_boards) == \
+                self.notactoe.get_num_active_boards():
             self.widgets['player_label'].config(text='Player 1 wins!')
             self.notactoe.set_player(1)
             self.game_in_progress = False
@@ -146,18 +148,24 @@ class NoTacToeUI:
             return False
 
     def board_option_callback(self, unused_var):
-        self.active_boards = self.widgets['board_variable'].get()
-        self.notactoe.set_num_active_boards(self.active_boards)
-        self.notactoe.reset_game()
-        self.paint_canvas()
-        self.game_in_progress = True
-
-    def reset_callback(self):
+        self.notactoe.set_num_active_boards(self.widgets['board_variable'].get())
         self.notactoe.reset_game()
         self.paint_canvas()
         self.widgets['player_label'].config(text='Player 1\'s turn')
         self.notactoe.set_player(1)
         self.game_in_progress = True
+        for i in range(self.notactoe.get_num_active_boards()):
+            self.update_monoid_labels(i)
+
+    def reset_callback(self):
+        self.notactoe.set_num_active_boards(self.widgets['board_variable'].get())
+        self.notactoe.reset_game()
+        self.paint_canvas()
+        self.widgets['player_label'].config(text='Player 1\'s turn')
+        self.notactoe.set_player(1)
+        self.game_in_progress = True
+        for i in range(self.notactoe.get_num_active_boards()):
+            self.update_monoid_labels(i)
 
     def translate_value(self, value):
         return self.MONOID_LABELS[value]

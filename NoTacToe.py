@@ -65,4 +65,3 @@ class NoTacToe:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     notactoe = NoTacToe()
-    notactoe.create_boards()

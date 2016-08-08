@@ -76,8 +76,8 @@ class NoTacToeUI:
                                                            value=self.COMPUTER_MODE, command=self.reset_callback)
         self.widgets['radiobutton_computer'].grid(row=3, sticky='W', padx=20)
         Label(self.widgets['control_frame'], text='Composite:').grid(row=4, padx=20, pady=(120, 5))
-        self.widgets['composite_label'] = Label(self.widgets['control_frame'], text='1')
-        self.widgets['composite_label'].grid(row=5, padx=20, pady=5)
+        self.widgets['combined_monoid'] = Label(self.widgets['control_frame'], text='1')
+        self.widgets['combined_monoid'].grid(row=5, padx=20, pady=5)
 
     def bottom_window(self):
         self.widgets['bottom_frame'] = Frame(self.root)
@@ -98,7 +98,8 @@ class NoTacToeUI:
             self.canvases[i].create_line(0, 100, 150, 100)
             self.canvases[i].create_line(50, 0, 50, 150)
             self.canvases[i].create_line(100, 0, 100, 150)
-            self.canvas_labels[i].config(text='c')
+            self.canvas_labels[i].config(text=BoardCalculations.translate_to_monoid(
+                BoardCalculations.get_monoid_index(i, self.notactoe)))
 
     # Callback to respond when mouse click occurs in a canvas that the click is bound to.  event returns where the
     # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the
@@ -118,7 +119,9 @@ class NoTacToeUI:
                     self.update_monoid_labels(board)
 
     def update_monoid_labels(self, board_num):
-        self.canvas_labels[board_num].config(text=BoardCalculations.get_monoid(board_num, self.notactoe))
+        self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
+            BoardCalculations.get_monoid_index(board_num, self.notactoe)))
+        self.widgets['combined_monoid'].config(text=BoardCalculations.multiply(self.notactoe))
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):

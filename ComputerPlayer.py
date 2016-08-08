@@ -4,7 +4,7 @@ import random
 class ComputerPlayer:
     MONOID_LABELS = ('1', 'a', 'b', 'ab', 'b2', 'abc', 'c', 'ac', 'bc', 'abc', 'cc', 'ac2', 'bcc', 'abcc', 'd', 'ad',
                      'bd', 'abd')
-    # BOARD_VARIABLES stores the non-constant values of the boards
+      # BOARD_VARIABLES stores the non-constant values of the boards
     BOARD_VARIABLES = {'         ': 6, '    X    ': 10, 'XX       ': 15, 'X X      ': 2,
                        'X   X    ': 2, 'X    X   ': 2, 'X       X': 1, ' X X     ': 1,
                        ' X  X    ': 2, ' X     X ': 1, 'XX X     ': 2, 'XX  X    ': 3,

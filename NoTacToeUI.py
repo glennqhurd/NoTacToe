@@ -121,7 +121,8 @@ class NoTacToeUI:
     def update_monoid_labels(self, board_num):
         self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
             BoardCalculations.get_monoid_index(board_num, self.notactoe)))
-        self.widgets['combined_monoid'].config(text=BoardCalculations.multiply(self.notactoe))
+        self.widgets['combined_monoid'].config(text=BoardCalculations.translate_to_monoid(
+            BoardCalculations.multiply(self.notactoe)))
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):

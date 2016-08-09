@@ -15,8 +15,9 @@ class NoTacToeUI:
     BOARD_NUMBER_TUPLE = (3, 1, 2, 3)
     PLAYER_MODE = 0
     COMPUTER_MODE = 1
-    MONOID_LABELS = ('1', 'a', 'b', 'ab', 'b2', 'abc', 'c', 'ac', 'bc', 'abc', 'c2', 'ac2', 'bc2', 'abc2', 'd', 'ad',
-                     'bd', 'abd')
+    MONOID_LABELS = ('1', 'a', 'b', 'ab', u'b\u00B2', 'abc', 'c', 'ac', 'bc', 'abc', u'c\u00B2', u'ac\u00B2',
+                     u'bc\u00B2', u'abc\u00B2', 'd', 'ad', 'bd', 'abd')
+    COLORED_MONOIDS = ('a', u'b\u00B2', 'bc', u'c\u00B2')
 
     def __init__(self):
         # Creates a new instance of NoTacToe (the game logic class)
@@ -120,10 +121,19 @@ class NoTacToeUI:
                     self.update_monoid_labels(board)
 
     def update_monoid_labels(self, board_num):
-        self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
-            BoardCalculations.get_monoid_index(board_num, self.notactoe)))
-        self.widgets['combined_monoid'].config(text=BoardCalculations.translate_to_monoid(
-            BoardCalculations.multiply(self.notactoe)))
+        if BoardCalculations.translate_to_monoid(BoardCalculations.get_monoid_index(board_num, self.notactoe)) in \
+                self.COLORED_MONOIDS:
+            self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
+                BoardCalculations.get_monoid_index(board_num, self.notactoe)), foreground='red')
+        else:
+            self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
+                BoardCalculations.get_monoid_index(board_num, self.notactoe)), foreground='black')
+        if BoardCalculations.translate_to_monoid(BoardCalculations.multiply(self.notactoe)) in self.COLORED_MONOIDS:
+            self.widgets['combined_monoid'].config(text=BoardCalculations.translate_to_monoid(
+                BoardCalculations.multiply(self.notactoe)), foreground='red')
+        else:
+            self.widgets['combined_monoid'].config(text=BoardCalculations.translate_to_monoid(
+                BoardCalculations.multiply(self.notactoe)), foreground='black')
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):

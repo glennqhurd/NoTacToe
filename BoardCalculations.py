@@ -2,8 +2,8 @@ import random
 
 from tictactoe_symmetry import *
 
-MONOID_LABELS = ['1', 'a', 'b', 'ab', 'bb', 'abb', 'c', 'ac', 'bc',
-                 'abc', 'cc', 'acc', 'bcc', 'abcc', 'd', 'ad', 'bd', 'abd']
+MONOID_LABELS = ['1', 'a', 'b', 'ab', u'b\u00B2', u'ab\u00B2', 'c', 'ac', 'bc',
+                 'abc', u'c\u00B2', u'ac\u00B2', u'bc\u00B2', u'abc\u00B2', 'd', 'ad', 'bd', 'abd']
 
 # BOARD_VALUES stores the non-constant values of the boards
 BOARD_VALUES = {'         ': 6, '    X    ': 10, 'XX       ': 15, 'X X      ': 2,

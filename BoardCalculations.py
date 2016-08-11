@@ -61,8 +61,8 @@ def board_value(board):
     return random.randint(0, 17)
 
 
-def multiply(notactoe):
-    monoid_list = [get_monoid_index(x, notactoe) for x in range(len(notactoe.board_list))]
+def find_composite(board_list):
+    monoid_list = [get_monoid_index(x, board_list) for x in range(len(board_list))]
     return reduce(lambda m1, m2: combine_monoids(m1, m2), monoid_list)
 
 
@@ -71,8 +71,8 @@ def combine_monoids(monoid1, monoid2):
     return LOOKUP_TABLE[monoid_tuple]
 
 
-def get_monoid_index(board_index, notactoe):
-    symmetry, index = canonical_board(''.join(notactoe.board_list[board_index]))
+def get_monoid_index(board_index, board_list):
+    symmetry, index = canonical_board(''.join(board_list[board_index]))
     if symmetry in BOARD_VALUES:
         return BOARD_VALUES[symmetry]
     return 0

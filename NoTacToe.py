@@ -40,7 +40,7 @@ class NoTacToe:
         if self.check_box_legal(board_number, box):
             self.mark_box(board_number, box, 'X')
             if board_number not in self.dead_boards:
-                if BoardCalculations.multiply(self) in BoardCalculations.COLORED_MONOIDS:
+                if BoardCalculations.find_composite(self.board_list) in BoardCalculations.COLORED_MONOIDS:
                     return True
             self.remove_from_dead(board_number)
             self.mark_box(board_number, box, ' ')

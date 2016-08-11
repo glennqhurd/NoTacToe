@@ -42,7 +42,7 @@ class ComputerPlayer:
         assert assertion, 'No valid moves'
 
     def check_monoid(self, move):
-        if BoardCalculations.multiply(self.notactoe) in BoardCalculations.COLORED_MONOIDS:
+        if BoardCalculations.find_composite(self.notactoe) in BoardCalculations.COLORED_MONOIDS:
             return True
         else:
             return False

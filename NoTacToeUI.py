@@ -97,7 +97,7 @@ class NoTacToeUI:
             self.canvases[i].create_line(50, 0, 50, 150)
             self.canvases[i].create_line(100, 0, 100, 150)
             self.canvas_labels[i].config(text=BoardCalculations.translate_to_monoid(
-                BoardCalculations.get_monoid_index(i, self.notactoe)))
+                BoardCalculations.get_monoid_index(i, self.notactoe.board_list)))
 
     # Callback to respond when mouse click occurs in a canvas that the click is bound to.  event returns where the
     # click occurred and what canvas was clicked.  index tells the method mark_box which canvas was clicked for the
@@ -118,14 +118,14 @@ class NoTacToeUI:
 
     def update_monoid_labels(self, board_num):
         self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
-            BoardCalculations.get_monoid_index(board_num, self.notactoe)))
-        if BoardCalculations.translate_to_monoid(BoardCalculations.multiply(self.notactoe)) in \
+            BoardCalculations.get_monoid_index(board_num, self.notactoe.board_list)))
+        if BoardCalculations.translate_to_monoid(BoardCalculations.find_composite(self.notactoe.board_list)) in \
                 BoardCalculations.COLORED_MONOIDS:
             self.widgets['combined_monoid'].config(text=BoardCalculations.translate_to_monoid(
-                BoardCalculations.multiply(self.notactoe)), foreground='red')
+                BoardCalculations.find_composite(self.notactoe.board_list)), foreground='red')
         else:
             self.widgets['combined_monoid'].config(text=BoardCalculations.translate_to_monoid(
-                BoardCalculations.multiply(self.notactoe)), foreground='black')
+                BoardCalculations.find_composite(self.notactoe.board_list)), foreground='black')
 
     # Modifies widgets['player_label'] based on a method to find out current player and react accordingly
     def change_player(self):

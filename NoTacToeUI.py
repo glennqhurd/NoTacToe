@@ -1,7 +1,6 @@
 from Tkinter import *
 from ttk import *
 
-import BoardCalculations
 from ComputerPlayer import *
 from NoTacToe import *
 
@@ -15,9 +14,6 @@ class NoTacToeUI:
     BOARD_NUMBER_TUPLE = (3, 1, 2, 3)
     PLAYER_MODE = 0
     COMPUTER_MODE = 1
-    MONOID_LABELS = ('1', 'a', 'b', 'ab', u'b\u00B2', 'abc', 'c', 'ac', 'bc', 'abc', u'c\u00B2', u'ac\u00B2',
-                     u'bc\u00B2', u'abc\u00B2', 'd', 'ad', 'bd', 'abd')
-    COLORED_MONOIDS = ('a', u'b\u00B2', 'bc', u'c\u00B2')
 
     def __init__(self):
         # Creates a new instance of NoTacToe (the game logic class)
@@ -104,31 +100,27 @@ class NoTacToeUI:
                 BoardCalculations.get_monoid_index(i, self.notactoe)))
 
     # Callback to respond when mouse click occurs in a canvas that the click is bound to.  event returns where the
-    # click occurred and what canvas was clicked.  index tells the method mark_x which canvas was clicked for the
+    # click occurred and what canvas was clicked.  index tells the method mark_box which canvas was clicked for the
     # NoTacToe method
 
     def click(self, event, board_num):
         box = box_number(event.x, event.y)
         if box >= 0:
-            if self.notactoe.mark_x(board_num, box):
+            if self.notactoe.mark_box(board_num, box):
                 draw_x(box, event.widget)
                 self.change_player()
                 self.update_monoid_labels(board_num)
                 if self.widgets['radio_variable'].get() == self.COMPUTER_MODE and self.game_in_progress:
-                    board, box = self.comp_player.random_move()
+                    board, box = self.comp_player.make_move(False)
                     draw_x(box, self.canvases[board])
                     self.change_player()
                     self.update_monoid_labels(board)
 
     def update_monoid_labels(self, board_num):
-        if BoardCalculations.translate_to_monoid(BoardCalculations.get_monoid_index(board_num, self.notactoe)) in \
-                self.COLORED_MONOIDS:
-            self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
-                BoardCalculations.get_monoid_index(board_num, self.notactoe)), foreground='red')
-        else:
-            self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
-                BoardCalculations.get_monoid_index(board_num, self.notactoe)), foreground='black')
-        if BoardCalculations.translate_to_monoid(BoardCalculations.multiply(self.notactoe)) in self.COLORED_MONOIDS:
+        self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(
+            BoardCalculations.get_monoid_index(board_num, self.notactoe)))
+        if BoardCalculations.translate_to_monoid(BoardCalculations.multiply(self.notactoe)) in \
+                BoardCalculations.COLORED_MONOIDS:
             self.widgets['combined_monoid'].config(text=BoardCalculations.translate_to_monoid(
                 BoardCalculations.multiply(self.notactoe)), foreground='red')
         else:
@@ -178,7 +170,7 @@ class NoTacToeUI:
             self.update_monoid_labels(i)
 
     def translate_value(self, value):
-        return self.MONOID_LABELS[value]
+        return BoardCalculations.MONOID_LABELS[value]
 
 
 # Static functions

@@ -28,13 +28,13 @@ class Computer_Player_test(unittest.TestCase):
     #     test = (2, 2)
     #     for i in range(2):
     #         for j in range(9):
-    #             comp.notactoe.mark_x(i, j)
-    #     comp.notactoe.mark_x(2, 0)
-    #     comp.notactoe.mark_x(2, 1)
-    #     comp.notactoe.mark_x(2, 4)
-    #     comp.notactoe.mark_x(2, 5)
-    #     comp.notactoe.mark_x(2, 6)
-    #     self.assertEqual(test, comp.random_move())
+    #             comp.notactoe.mark_box(i, j)
+    #     comp.notactoe.mark_box(2, 0)
+    #     comp.notactoe.mark_box(2, 1)
+    #     comp.notactoe.mark_box(2, 4)
+    #     comp.notactoe.mark_box(2, 5)
+    #     comp.notactoe.mark_box(2, 6)
+    #     self.assertEqual(test, comp.make_move())
 
     def test_get_variable(self):
         notactoe = NoTacToe()

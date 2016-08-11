@@ -106,12 +106,12 @@ class NoTacToeUI:
     def click(self, event, board_num):
         box = box_number(event.x, event.y)
         if box >= 0:
-            if self.notactoe.mark_box(board_num, box):
+            if self.notactoe.mark_box(board_num, box, 'X'):
                 draw_x(box, event.widget)
                 self.change_player()
                 self.update_monoid_labels(board_num)
                 if self.widgets['radio_variable'].get() == self.COMPUTER_MODE and self.game_in_progress:
-                    board, box = self.comp_player.make_move(False)
+                    board, box = self.comp_player.make_move(True)
                     draw_x(box, self.canvases[board])
                     self.change_player()
                     self.update_monoid_labels(board)

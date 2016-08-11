@@ -26,7 +26,7 @@ class NoTacToe:
 
     # changes the board by replacing a ' ' with an 'X' if there isn't already an 'X' in place
     def mark_box(self, board_number, box, symbol):
-        if not self.check_box_legal(board_number, box):
+        if not self.check_box_legal(board_number, box) and symbol == 'X':
             return False
         else:
             self.board_list[board_number][box] = symbol
@@ -37,11 +37,13 @@ class NoTacToe:
         return self.board_list[board_number][box] == ' ' and board_number not in self.dead_boards
 
     def check_box_winning(self, board_number, box):
-        self.mark_box(board_number, box, 'X')
-        if self.board_list[board_number][box] == ' ' and board_number not in self.dead_boards:
-            if BoardCalculations.multiply(self) in BoardCalculations.COLORED_MONOIDS:
-                self.mark_box(board_number, box, ' ')
-                return True
+        if self.check_box_legal(board_number, box):
+            self.mark_box(board_number, box, 'X')
+            if board_number not in self.dead_boards:
+                if BoardCalculations.multiply(self) in BoardCalculations.COLORED_MONOIDS:
+                    return True
+            self.remove_from_dead(board_number)
+            self.mark_box(board_number, box, ' ')
         return False
 
     # check_loser checks the board to see if there are three Xs in a line and if so checks if the list dead_boards has
@@ -52,9 +54,11 @@ class NoTacToe:
                         self.board_list[index][i[2]] == 'X'):
                 self.dead_boards.add(index)
                 return True
+        return False
+
+    def remove_from_dead(self, index):
         if index in self.dead_boards:
             self.dead_boards.remove(index)
-        return False
 
     # set and get methods for various member variables
     def set_num_active_boards(self, number):

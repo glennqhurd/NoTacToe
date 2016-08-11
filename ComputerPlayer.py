@@ -37,7 +37,7 @@ class ComputerPlayer:
             board_number = ((move + i) % total_length) / 9
             box = (move + i) % 9
             if self.notactoe.check_box_legal(board_number, box):
-                self.notactoe.mark_box(board_number, box)
+                self.notactoe.mark_box(board_number, box, 'X')
                 return board_number, box
         assert assertion, 'No valid moves'
 

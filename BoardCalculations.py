@@ -5,7 +5,11 @@ from tictactoe_symmetry import *
 MONOID_LABELS = ['1', 'a', 'b', 'ab', u'b\u00B2', u'ab\u00B2', 'c', 'ac', 'bc',
                  'abc', u'c\u00B2', u'ac\u00B2', u'bc\u00B2', u'abc\u00B2', 'd', 'ad', 'bd', 'abd']
 
-COLORED_MONOIDS = ('a', u'b\u00B2', 'bc', u'c\u00B2')
+COLORED_MONOIDS = {'a', u'b\u00B2', 'bc', u'c\u00B2'}
+
+WINNING_MONOIDS_INDEX = {1, 4, 8, 10}
+
+LOSING_POSITIONS = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
 
 # BOARD_VALUES stores the non-constant values of the boards
 BOARD_VALUES = {'         ': 6, '    X    ': 10, 'XX       ': 15, 'X X      ': 2,
@@ -79,3 +83,46 @@ def get_monoid_index(board_index, board_list):
 
 def translate_to_monoid(monoid_index):
     return MONOID_LABELS[monoid_index]
+
+
+def check_box_legal( board_number, box, board_list, dead_boards):
+    return board_list[board_number][box] == ' ' and board_number not in dead_boards
+
+
+def check_box_winning(board_number, box, board_list, dead_boards):
+    if check_box_legal(board_number, box, board_list, dead_boards):
+        mark_box(board_number, box, board_list, dead_boards, 'X')
+        if board_number not in dead_boards:
+            logging.debug("Board composite: %d", find_composite(board_list))
+            logging.debug("Is move smart: %s", find_composite(board_list) in WINNING_MONOIDS_INDEX)
+            if find_composite(board_list) in WINNING_MONOIDS_INDEX:
+                logging.debug("Made smart move.")
+                return True
+        remove_from_dead(dead_boards, board_number)
+        mark_box(board_number, box, board_list, dead_boards, ' ')
+    return False
+
+
+# changes the board by replacing a ' ' with an 'X' if there isn't already an 'X' in place
+def mark_box(board_number, box, board_list, dead_boards, symbol):
+    if not check_box_legal(board_number, box, board_list, dead_boards) and symbol == 'X':
+        return False
+    else:
+        board_list[board_number][box] = symbol
+        check_loser(board_list, dead_boards, board_number)
+        return True
+
+
+# check_loser checks the board to see if there are three Xs in a line and if so checks if the list dead_boards has
+    # a value equal to index.  If the value doesn't exist it add index to the dead_boards list.
+def check_loser(board_list, dead_boards, index):
+    for i in LOSING_POSITIONS:
+        if board_list[index][i[0]] == 'X' and board_list[index][i[1]] == 'X' and board_list[index][i[2]] == 'X':
+            dead_boards.add(index)
+            return True
+    return False
+
+
+def remove_from_dead(dead_boards, board_number):
+    if board_number in dead_boards:
+        dead_boards.remove(board_number)

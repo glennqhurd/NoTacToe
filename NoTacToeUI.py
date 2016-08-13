@@ -34,7 +34,7 @@ class NoTacToeUI:
         Label(title_frame, text='Time to play NoTacToe!').grid(row=0)
         Label(title_frame, text='Rules:\n(1) Both players play X.\n(2) Once a board has three-in-a-row it dies.\n'
               '(3) The player who kills the last board loses.').grid(row=1, pady=10)
-        self.widgets['player_label'] = Label(title_frame, text='Player 1 turn', font='bold')
+        self.widgets['player_label'] = Label(title_frame, text='Player 1\'s turn', font='bold')
         self.widgets['player_label'].grid(row=2)
         self.canvas_window()
         self.control_window()
@@ -106,12 +106,12 @@ class NoTacToeUI:
     def click(self, event, board_num):
         box = box_number(event.x, event.y)
         if box >= 0:
-            if self.notactoe.mark_box(board_num, box, 'X'):
+            if BoardCalculations.mark_box(board_num, box, self.notactoe.board_list, self.notactoe.dead_boards, 'X'):
                 draw_x(box, event.widget)
                 self.change_player()
                 self.update_monoid_labels(board_num)
                 if self.widgets['radio_variable'].get() == self.COMPUTER_MODE and self.game_in_progress:
-                    board, box = self.comp_player.make_move(True)
+                    board, box = self.comp_player.make_move()
                     draw_x(box, self.canvases[board])
                     self.change_player()
                     self.update_monoid_labels(board)
@@ -169,9 +169,6 @@ class NoTacToeUI:
         for i in range(self.notactoe.get_num_active_boards()):
             self.update_monoid_labels(i)
 
-    def translate_value(self, value):
-        return BoardCalculations.MONOID_LABELS[value]
-
 
 # Static functions
 def draw_x(box, canvas):
@@ -205,6 +202,11 @@ def box_number(x, y):
             return 5
         elif 103 < y < 148:
             return 8
+
+
+def translate_value(value):
+    return BoardCalculations.MONOID_LABELS[value]
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

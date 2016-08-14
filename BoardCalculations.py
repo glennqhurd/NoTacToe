@@ -94,7 +94,7 @@ def check_box_winning(board_number, box, board_list, dead_boards):
         mark_box(board_number, box, board_list, dead_boards, 'X')
         if board_number not in dead_boards:
             if find_composite(board_list) in WINNING_MONOIDS_INDEX:
-                logging.debug("Made smart move.")
+                logging.debug("Composite was: %d", find_composite(board_list))
                 return True
         remove_from_dead(dead_boards, board_number)
         mark_box(board_number, box, board_list, dead_boards, ' ')

@@ -108,6 +108,7 @@ class NoTacToeUI:
         if box >= 0:
             if BoardCalculations.mark_box(board_num, box, self.notactoe.board_list, self.notactoe.dead_boards, 'X'):
                 draw_x(box, event.widget)
+                logging.debug("Box: %d Board number: %d", box, board_num)
                 self.change_player()
                 self.update_monoid_labels(board_num)
                 if self.widgets['radio_variable'].get() == self.COMPUTER_MODE and self.game_in_progress:

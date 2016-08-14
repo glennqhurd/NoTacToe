@@ -92,10 +92,9 @@ def check_box_legal( board_number, box, board_list, dead_boards):
 def check_box_winning(board_number, box, board_list, dead_boards):
     if check_box_legal(board_number, box, board_list, dead_boards):
         mark_box(board_number, box, board_list, dead_boards, 'X')
-        if board_number not in dead_boards:
-            if find_composite(board_list) in WINNING_MONOIDS_INDEX:
-                logging.debug("Composite was: %d", find_composite(board_list))
-                return True
+        if find_composite(board_list) in WINNING_MONOIDS_INDEX:
+            logging.debug("Composite was: %d", find_composite(board_list))
+            return True
         remove_from_dead(dead_boards, board_number)
         mark_box(board_number, box, board_list, dead_boards, ' ')
     return False
@@ -119,6 +118,12 @@ def check_loser(board_list, dead_boards, index):
             dead_boards.add(index)
             return True
     return False
+
+
+def get_loser_boxes(board_list, index):
+    for i in LOSING_POSITIONS:
+        if board_list[index][i[0]] == 'X' and board_list[index][i[1]] == 'X' and board_list[index][i[2]] == 'X':
+            return board_list[index][i[0]], board_list[index][i[1]], board_list[index][i[2]]
 
 
 def remove_from_dead(dead_boards, board_number):

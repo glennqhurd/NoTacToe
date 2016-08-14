@@ -99,6 +99,27 @@ class NoTacToeUI:
             self.canvas_labels[i].config(text=BoardCalculations.translate_to_monoid(
                 BoardCalculations.get_monoid_index(i, self.notactoe.board_list)))
 
+    def paint_loser(self, canvas):
+        for index in self.canvases.keys():
+            if self.canvases[index] == canvas:
+                canvas_number = index
+        if BoardCalculations.check_loser(self.notactoe.board_list, self.notactoe.dead_boards, canvas_number):
+            box1, box2, box3 = BoardCalculations.get_loser_boxes(self.notactoe.board_list, canvas_number)
+            if box1 == 0 and box2 == 1 and box3 == 2:
+                canvas.create_line(0, 25, 150, 25)
+            elif box1 == 0 and box2 == 3 and box3 == 6:
+                canvas.create_line(25, 0, 25, 150)
+            elif box1 == 0 and box2 == 4 and box3 == 8:
+                canvas.create_line(0, 0, 150, 150)
+            elif box1 == 1 and box2 == 4 and box3 == 7:
+                canvas.create_line(75, 0, 75, 150)
+            elif box1 == 2 and box2 == 5 and box3 == 8:
+                canvas.create_line(125, 0, 125, 150)
+            elif box1 == 3 and box2 == 4 and box3 == 5:
+                canvas.create_line(0, 75, 150, 75)
+            elif box1 == 6 and box2 == 7 and box3 == 8:
+                canvas.create_line(0, 125, 150, 125)
+
     # Callback to respond when mouse click occurs in a canvas that the click is bound to.  event returns where the
     # click occurred and what canvas was clicked.  index tells the method mark_box which canvas was clicked for the
     # NoTacToe method
@@ -111,11 +132,13 @@ class NoTacToeUI:
                 logging.debug("Human move Board number: %d Box: %d", board_num, box)
                 self.change_player()
                 self.update_monoid_labels(board_num)
+                self.paint_loser(event.widget)
                 if self.widgets['radio_variable'].get() == self.COMPUTER_MODE and self.game_in_progress:
                     board, box = self.comp_player.make_move()
                     draw_x(box, self.canvases[board])
                     self.change_player()
                     self.update_monoid_labels(board)
+                    self.paint_loser(self.canvases[board])
 
     def update_monoid_labels(self, board_num):
         self.canvas_labels[board_num].config(text=BoardCalculations.translate_to_monoid(

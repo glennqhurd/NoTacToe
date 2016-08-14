@@ -124,6 +124,7 @@ def get_loser_boxes(board_list, index):
     for i in LOSING_POSITIONS:
         if board_list[index][i[0]] == 'X' and board_list[index][i[1]] == 'X' and board_list[index][i[2]] == 'X':
             return board_list[index][i[0]], board_list[index][i[1]], board_list[index][i[2]]
+    return 0
 
 
 def remove_from_dead(dead_boards, board_number):

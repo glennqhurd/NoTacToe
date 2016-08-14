@@ -93,8 +93,6 @@ def check_box_winning(board_number, box, board_list, dead_boards):
     if check_box_legal(board_number, box, board_list, dead_boards):
         mark_box(board_number, box, board_list, dead_boards, 'X')
         if board_number not in dead_boards:
-            logging.debug("Board composite: %d", find_composite(board_list))
-            logging.debug("Is move smart: %s", find_composite(board_list) in WINNING_MONOIDS_INDEX)
             if find_composite(board_list) in WINNING_MONOIDS_INDEX:
                 logging.debug("Made smart move.")
                 return True

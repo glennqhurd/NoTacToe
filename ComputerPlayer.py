@@ -34,7 +34,7 @@ class ComputerPlayer:
                                                        self.notactoe.dead_boards):
                     BoardCalculations.mark_box(board_number, box, self.notactoe.board_list, self.notactoe.dead_boards,
                                                'X')
-                    logging.debug("Board number: %d Box: %d", board_number, box)
+                    logging.debug("Computer smart move Board number: %d Box: %d", board_number, box)
                     return board_number, box
         total_length = self.notactoe.get_num_active_boards() * 9
         move = random.randint(0, (total_length - 1))
@@ -44,7 +44,7 @@ class ComputerPlayer:
             if BoardCalculations.check_box_legal(board_number, box, self.notactoe.board_list,
                                                  self.notactoe.dead_boards):
                 BoardCalculations.mark_box(board_number, box, self.notactoe.board_list, self.notactoe.dead_boards, 'X')
-                logging.debug("Board number: %d Box: %d", board_number, box)
+                logging.debug("Computer dumb move Board number: %d Box: %d", board_number, box)
                 return board_number, box
         assert False, 'No valid moves'
 

@@ -182,6 +182,7 @@ class NoTacToeUI:
         self.game_in_progress = True
         for i in range(self.notactoe.get_num_active_boards()):
             self.update_monoid_labels(i)
+            self.canvases[i].config(bg="LIGHT GRAY")
 
     def reset_callback(self):
         self.notactoe.set_num_active_boards(self.widgets['board_variable'].get())
